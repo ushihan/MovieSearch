@@ -12,7 +12,7 @@ class MovieCell: UITableViewCell {
 
     // MARK: - components
 
-    lazy private var movieImageView: UIImageView = {
+    private lazy var movieImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 8
@@ -20,7 +20,7 @@ class MovieCell: UITableViewCell {
         return imageView
     }()
 
-    lazy private var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.font = .systemFont(ofSize: 16, weight: .bold)
@@ -28,7 +28,7 @@ class MovieCell: UITableViewCell {
         return label
     }()
 
-    lazy private var releaseYearLabel: UILabel = {
+    private lazy var releaseYearLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(hex: "#959595")
         label.font = .systemFont(ofSize: 12)
@@ -36,7 +36,7 @@ class MovieCell: UITableViewCell {
         return label
     }()
 
-    lazy private var scoreContainer: UIView = {
+    private lazy var scoreContainer: UIView = {
         let view = UIView()
         view.addSubview(scoreLabel)
         view.addSubview(userScoreLabel)
@@ -53,7 +53,7 @@ class MovieCell: UITableViewCell {
         return view
     }()
 
-    lazy private var scoreLabel: UILabel = {
+    private lazy var scoreLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.font = .systemFont(ofSize: 12, weight: .bold)
@@ -71,7 +71,7 @@ class MovieCell: UITableViewCell {
         return label
     }()
 
-    lazy private var genreContainer: UIStackView = {
+    private lazy var genreContainer: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 12
