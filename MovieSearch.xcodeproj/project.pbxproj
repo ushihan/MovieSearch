@@ -28,6 +28,7 @@
 		4BB0BBDF2B82250A00B20014 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBDE2B82250A00B20014 /* MockURLProtocol.swift */; };
 		4BB0BBE22B82253500B20014 /* PopularMovieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBE12B82253500B20014 /* PopularMovieTests.swift */; };
 		4BB0BBE42B822AF100B20014 /* Config.plist.example in Resources */ = {isa = PBXBuildFile; fileRef = 4BB0BBE32B822AF100B20014 /* Config.plist.example */; };
+		4BB0BBE62B8238D700B20014 /* PaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBE52B8238D700B20014 /* PaddedTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		4BB0BBDE2B82250A00B20014 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		4BB0BBE12B82253500B20014 /* PopularMovieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMovieTests.swift; sourceTree = "<group>"; };
 		4BB0BBE32B822AF100B20014 /* Config.plist.example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Config.plist.example; sourceTree = "<group>"; };
+		4BB0BBE52B8238D700B20014 /* PaddedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				4BB0BBCA2B81F18500B20014 /* UIColor+Extensions.swift */,
+				4BB0BBE52B8238D700B20014 /* PaddedTextField.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BB0BBD12B8223CC00B20014 /* PopularMoviesResponse.swift in Sources */,
+				4BB0BBE62B8238D700B20014 /* PaddedTextField.swift in Sources */,
 				4BB0BBCD2B820C6400B20014 /* MovieItem.swift in Sources */,
 				4BB0BBD52B82242100B20014 /* ConfigurationManager.swift in Sources */,
 				4B7B9AF92B81B933009B8E9A /* MovieViewController.swift in Sources */,

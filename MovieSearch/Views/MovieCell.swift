@@ -139,13 +139,13 @@ class MovieCell: UITableViewCell {
 
         movieImageView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(10)
-            make.leading.equalToSuperview().inset(24)
+            make.leading.equalToSuperview().inset(34)
             make.width.equalTo(85)
         }
 
         informationView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(10)
-            make.trailing.equalToSuperview().inset(24)
+            make.trailing.equalToSuperview().inset(34)
             make.leading.equalTo(movieImageView.snp.trailing).offset(27)
         }
     }
