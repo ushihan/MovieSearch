@@ -6,13 +6,13 @@
 //
 
 import UIKit
+import SnapKit
 
 class ViewController: UIViewController {
 
     lazy private var demoLabel: UILabel = {
         let label = UILabel()
         label.text = "hello world!"
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
@@ -23,13 +23,11 @@ class ViewController: UIViewController {
     }
 
     func setLayout() {
-        view.addSubview(self.demoLabel)
+        view.addSubview(demoLabel)
 
-        let labelConstraints = [
-            self.demoLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.demoLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-        ]
-        NSLayoutConstraint.activate(labelConstraints)
+        demoLabel.snp.makeConstraints { make in
+            make.center.equalTo(self.view)
+        }
     }
 }
 
