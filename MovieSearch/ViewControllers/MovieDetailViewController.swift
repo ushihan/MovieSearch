@@ -10,8 +10,11 @@ import UIKit
 
 class MovieDetailViewController: UIViewController {
 
-    private var customView: MoviesView {
-        return view as! MoviesView
+    private var customView: MovieDetailView {
+        guard let view = view as? MovieDetailView else {
+            fatalError("view should be MovieDetailView")
+        }
+        return view
     }
 
     private var detailModel: MovieDetailModel
@@ -36,5 +39,8 @@ class MovieDetailViewController: UIViewController {
 
     private func setupAction() {
         // set up button event: backButton, favoriteButton, rateButton, viewFavsButton
+        customView.backButton.addAction(UIAction { [weak self] _ in
+            self?.dismiss(animated: true)
+        }, for: .touchUpInside)
     }
 }

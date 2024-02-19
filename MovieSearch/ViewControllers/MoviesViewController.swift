@@ -11,7 +11,8 @@ import Combine
 
 class MoviesViewController: UIViewController {
 
-    private var viewModel = MoviesViewModel()
+    weak var coordinator: AppCoordinator?
+    private let viewModel: MoviesViewModel
     private var cancellables = Set<AnyCancellable>()
 
     private var customView: MoviesView {
@@ -22,6 +23,15 @@ class MoviesViewController: UIViewController {
     }
 
     private var dataSource: UITableViewDiffableDataSource<MoviewSection, MovieItem>!
+
+    init(viewModel: MoviesViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func loadView() {
         view = MoviesView()
@@ -73,10 +83,7 @@ extension MoviesViewController: UITableViewDelegate {
                                            userScore: "70",
                                            genreList: ["Animation", "Family"],
                                            overview: overview)
-        let movieDetailViewController = MovieDetailViewController(model: detailModel)
-        movieDetailViewController.modalPresentationStyle = .fullScreen
-        movieDetailViewController.modalTransitionStyle = .coverVertical
-        self.present(movieDetailViewController, animated: true)
+        coordinator?.navigateToDetail(model: detailModel)
     }
 }
 
