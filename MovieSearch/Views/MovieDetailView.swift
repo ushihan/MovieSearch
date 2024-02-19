@@ -1,5 +1,5 @@
 //
-//  MovieDetailViewController.swift
+//  MovieDetailView.swift
 //  MovieSearch
 //
 //  Created by Shih-Han Hsu on 19/2/2024.
@@ -8,11 +8,11 @@
 import Foundation
 import UIKit
 
-class MovieDetailViewController: UIViewController {
+class MovieDetailView: UIView {
 
     private var detailModel: MovieDetailModel
 
-    private lazy var backButton: UIButton = {
+    let backButton: UIButton = {
         let button = RoundButton()
         button.tintColor = .white
 
@@ -33,7 +33,7 @@ class MovieDetailViewController: UIViewController {
         return button
     }()
 
-    private lazy var favoriteButton: UIButton = {
+    let favoriteButton: UIButton = {
         let button = RoundButton()
         var config = UIButton.Configuration.filled()
         config.image = UIImage(named: "star")
@@ -42,7 +42,7 @@ class MovieDetailViewController: UIViewController {
         return button
     }()
 
-    private lazy var rateButton: UIButton = {
+    let rateButton: UIButton = {
         let buttonStyleModel = TwoPartStyleModel(topColor: UIColor(hex: "#AB803F"), topText: "Rate it myself >",
                                                  topTextColor: .white, topFont: .systemFont(ofSize: 16),
                                                  bottomColor: .black, bottomText: "add personal rating",
@@ -51,7 +51,7 @@ class MovieDetailViewController: UIViewController {
         return TwoPartButton(model: buttonStyleModel)
     }()
 
-    private lazy var viewFavsButton: UIButton = {
+    let viewFavsButton: UIButton = {
         let button = RoundButton()
         var config = UIButton.Configuration.filled()
         config.background.backgroundColor = UIColor(hex: "#FFF3D3")
@@ -65,36 +65,25 @@ class MovieDetailViewController: UIViewController {
         return button
     }()
 
-    init(model: MovieDetailModel) {
-        self.detailModel = model
-        super.init(nibName: nil, bundle: nil)
+    init(detailModel: MovieDetailModel) {
+        self.detailModel = detailModel
+        super.init(frame: .zero)
+        setupLayout()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupLayout()
-        setupAction()
-    }
-
-    private func setupAction() {
-        // set up button event: backButton, favoriteButton, rateButton, viewFavsButton
-    }
-
-    // MARK: - set up layout
-
     private func setupLayout() {
         let headerImageView = getHeaderImageView()
         let headerView = getHeaderView()
         let detailView = getDetailView()
 
-        view.backgroundColor = .white
-        view.addSubview(headerImageView)
-        view.addSubview(headerView)
-        view.addSubview(detailView)
+        backgroundColor = .white
+        addSubview(headerImageView)
+        addSubview(headerView)
+        addSubview(detailView)
 
         headerImageView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -103,7 +92,7 @@ class MovieDetailViewController: UIViewController {
 
         headerView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top)
             make.height.equalTo(243)
         }
 
