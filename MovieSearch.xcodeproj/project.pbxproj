@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		4B7B9AF52B81B933009B8E9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7B9AF42B81B933009B8E9A /* AppDelegate.swift */; };
 		4B7B9AF72B81B933009B8E9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7B9AF62B81B933009B8E9A /* SceneDelegate.swift */; };
-		4B7B9AF92B81B933009B8E9A /* MovieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7B9AF82B81B933009B8E9A /* MovieViewController.swift */; };
+		4B7B9AF92B81B933009B8E9A /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7B9AF82B81B933009B8E9A /* MoviesViewController.swift */; };
 		4B7B9AFE2B81B934009B8E9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B7B9AFD2B81B934009B8E9A /* Assets.xcassets */; };
 		4B7B9B012B81B934009B8E9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B7B9AFF2B81B934009B8E9A /* LaunchScreen.storyboard */; };
 		4B7B9B0C2B81B935009B8E9A /* MovieSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7B9B0B2B81B935009B8E9A /* MovieSearchTests.swift */; };
@@ -52,7 +52,7 @@
 		4B7B9AF12B81B933009B8E9A /* MovieSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B7B9AF42B81B933009B8E9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4B7B9AF62B81B933009B8E9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		4B7B9AF82B81B933009B8E9A /* MovieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewController.swift; sourceTree = "<group>"; };
+		4B7B9AF82B81B933009B8E9A /* MoviesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewController.swift; sourceTree = "<group>"; };
 		4B7B9AFD2B81B934009B8E9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4B7B9B002B81B934009B8E9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4B7B9B022B81B934009B8E9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -129,8 +129,8 @@
 				4B7B9B262B81B9DF009B8E9A /* Models */,
 				4B7B9B252B81B9D5009B8E9A /* ViewModels */,
 				4B7B9B242B81B9BD009B8E9A /* Views */,
+				4BB0BBEB2B82E5A600B20014 /* Manager */,
 				4BB0BBC92B81F0F900B20014 /* Utilities */,
-				4BB0BBD42B82242100B20014 /* ConfigurationManager.swift */,
 				4B7B9AF42B81B933009B8E9A /* AppDelegate.swift */,
 				4B7B9AF62B81B933009B8E9A /* SceneDelegate.swift */,
 				4B7B9AFD2B81B934009B8E9A /* Assets.xcassets */,
@@ -165,7 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				4B7B9AFF2B81B934009B8E9A /* LaunchScreen.storyboard */,
-				4B7B9AF82B81B933009B8E9A /* MovieViewController.swift */,
+				4B7B9AF82B81B933009B8E9A /* MoviesViewController.swift */,
 				4BB0BBC12B81E66B00B20014 /* MovieCell.swift */,
 			);
 			path = Views;
@@ -226,6 +226,15 @@
 				4BB0BBE12B82253500B20014 /* PopularMovieTests.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		4BB0BBEB2B82E5A600B20014 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				4BB0BBD42B82242100B20014 /* ConfigurationManager.swift */,
+				4BB0BBEC2B82E5BE00B20014 /* ImageCacheManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -371,7 +380,7 @@
 				4BB0BBE62B8238D700B20014 /* PaddedTextField.swift in Sources */,
 				4BB0BBCD2B820C6400B20014 /* MovieItem.swift in Sources */,
 				4BB0BBD52B82242100B20014 /* ConfigurationManager.swift in Sources */,
-				4B7B9AF92B81B933009B8E9A /* MovieViewController.swift in Sources */,
+				4B7B9AF92B81B933009B8E9A /* MoviesViewController.swift in Sources */,
 				4BB0BBCB2B81F18500B20014 /* UIColor+Extensions.swift in Sources */,
 				4BB0BBD32B8223F700B20014 /* TMDBService.swift in Sources */,
 				4B7B9AF52B81B933009B8E9A /* AppDelegate.swift in Sources */,

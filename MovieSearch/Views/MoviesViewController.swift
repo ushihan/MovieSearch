@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MovieViewController: UIViewController {
+class MoviesViewController: UIViewController {
 
     private var dataSource: UITableViewDiffableDataSource<MoviewSection, MovieItem>!
 
@@ -67,7 +67,7 @@ class MovieViewController: UIViewController {
 
 // MARK: - set up layout
 
-    func setLayout() {
+    private func setLayout() {
         let headerView = getHeaderView()
 
         view.backgroundColor = UIColor(hex: "#8EEAA2")
@@ -86,7 +86,7 @@ class MovieViewController: UIViewController {
         }
     }
 
-    func getHeaderView() -> UIView {
+    private func getHeaderView() -> UIView {
         titleLabel.text = "Popular Right now"
 
         let headerView = UIView()
@@ -108,7 +108,7 @@ class MovieViewController: UIViewController {
     }
 }
 
-extension MovieViewController: UITextFieldDelegate {
+extension MoviesViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // call search API

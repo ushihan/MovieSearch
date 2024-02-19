@@ -85,11 +85,11 @@ class MovieCell: UITableViewCell {
         setupViews()
     }
 
-    func setupInformation(with model: MovieItem) {
         if let imageUrl = URL(string: model.imageURL) {
             loadImage(from: imageUrl)
         }
 
+    private func setupInformation(with model: MovieItem) {
         titleLabel.text = model.title
         releaseYearLabel.text = model.releaseYear
         scoreLabel.text = model.userScore + "%"
@@ -131,7 +131,7 @@ class MovieCell: UITableViewCell {
 
     // MARK: - set up views
 
-    func setupViews() {
+    private func setupViews() {
         let informationView = getInformationView()
 
         addSubview(movieImageView)
@@ -150,7 +150,7 @@ class MovieCell: UITableViewCell {
         }
     }
 
-    func getInformationView() -> UIView {
+    private func getInformationView() -> UIView {
         let informationContainer = UIStackView()
         informationContainer.axis = .vertical
         informationContainer.distribution = .equalSpacing
