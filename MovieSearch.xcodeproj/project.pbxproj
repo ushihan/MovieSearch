@@ -17,7 +17,6 @@
 		4B7B9B182B81B935009B8E9A /* MovieSearchUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7B9B172B81B935009B8E9A /* MovieSearchUITestsLaunchTests.swift */; };
 		4BB0BBC22B81E66B00B20014 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBC12B81E66B00B20014 /* MovieCell.swift */; };
 		4BB0BBC62B81ED0D00B20014 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB0BBC52B81ED0D00B20014 /* SnapKit */; };
-		4BB0BBC82B81ED0D00B20014 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB0BBC72B81ED0D00B20014 /* SnapKit-Dynamic */; };
 		4BB0BBCB2B81F18500B20014 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBCA2B81F18500B20014 /* UIColor+Extensions.swift */; };
 		4BB0BBCD2B820C6400B20014 /* MovieItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBCC2B820C6400B20014 /* MovieItem.swift */; };
 		4BB0BBCF2B82231B00B20014 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BB0BBCE2B82231B00B20014 /* Config.plist */; };
@@ -99,7 +98,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BB0BBC62B81ED0D00B20014 /* SnapKit in Frameworks */,
-				4BB0BBC82B81ED0D00B20014 /* SnapKit-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +279,6 @@
 			name = MovieSearch;
 			packageProductDependencies = (
 				4BB0BBC52B81ED0D00B20014 /* SnapKit */,
-				4BB0BBC72B81ED0D00B20014 /* SnapKit-Dynamic */,
 			);
 			productName = MovieSearch;
 			productReference = 4B7B9AF12B81B933009B8E9A /* MovieSearch.app */;
@@ -602,8 +599,8 @@
 				INFOPLIST_FILE = MovieSearch/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -629,8 +626,8 @@
 				INFOPLIST_FILE = MovieSearch/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -777,11 +774,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4BB0BBC42B81ED0D00B20014 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		4BB0BBC72B81ED0D00B20014 /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4BB0BBC42B81ED0D00B20014 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
