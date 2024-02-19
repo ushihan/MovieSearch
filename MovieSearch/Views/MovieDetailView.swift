@@ -10,7 +10,7 @@ import UIKit
 
 class MovieDetailView: UIView {
 
-    private var detailModel: MovieDetailModel
+    private var detailModel: MovieItem
 
     let backButton: UIButton = {
         let button = RoundButton()
@@ -65,7 +65,7 @@ class MovieDetailView: UIView {
         return button
     }()
 
-    init(detailModel: MovieDetailModel) {
+    init(detailModel: MovieItem) {
         self.detailModel = detailModel
         super.init(frame: .zero)
         setupLayout()
@@ -105,7 +105,7 @@ class MovieDetailView: UIView {
 
     private func getHeaderImageView() -> UIView {
         let imageView = UIImageView()
-        imageView.loadImage(from: detailModel.headerImageURL)
+        imageView.loadImage(from: detailModel.imageURL)
         imageView.contentMode = .scaleAspectFill
         let maskView = UIView()
         maskView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
@@ -138,7 +138,7 @@ class MovieDetailView: UIView {
 
     private func getDetailView() -> UIView {
         let posterImageView = RoundImageView(roundingCorners: [.topRight], borderWidth: 5)
-        posterImageView.loadImage(from: detailModel.posterImageURL)
+        posterImageView.loadImage(from: detailModel.imageURL)
         posterImageView.contentMode = .scaleAspectFill
 
         let informationView = getInformationView()
@@ -255,9 +255,10 @@ class MovieDetailView: UIView {
         let attributedString = NSMutableAttributedString(string: detailModel.userScore,
                                                          attributes: [NSAttributedString.Key.font:
                                                                         UIFont.systemFont(ofSize: 20, weight: .bold)])
-        attributedString.append(NSAttributedString(string: "%",
+        attributedString.append(NSAttributedString(string: " %",
                                                    attributes: [NSAttributedString.Key.font:
-                                                                    UIFont.systemFont(ofSize: 12, weight: .bold)]))
+                                                                    UIFont.systemFont(ofSize: 12, weight: .bold),
+                                                                NSAttributedString.Key.baselineOffset: 5]))
         label.attributedText = attributedString
         return label
     }

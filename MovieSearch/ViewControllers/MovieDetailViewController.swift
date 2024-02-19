@@ -17,13 +17,13 @@ class MovieDetailViewController: UIViewController {
         return view
     }
 
-    private var detailModel: MovieDetailModel
+    private var detailModel: MovieItem
 
     override func loadView() {
         view = MovieDetailView(detailModel: detailModel)
     }
 
-    init(model: MovieDetailModel) {
+    init(model: MovieItem) {
         self.detailModel = model
         super.init(nibName: nil, bundle: nil)
     }

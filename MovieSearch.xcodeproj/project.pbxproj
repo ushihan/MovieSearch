@@ -31,7 +31,6 @@
 		4BB0BBEA2B82E2C200B20014 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBE92B82E2C200B20014 /* UIImageView+Extensions.swift */; };
 		4BB0BBED2B82E5BE00B20014 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBEC2B82E5BE00B20014 /* ImageCacheManager.swift */; };
 		4BB0BBEF2B82EA8E00B20014 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBEE2B82EA8E00B20014 /* MovieDetailViewController.swift */; };
-		4BB0BBF12B82EB3A00B20014 /* MovieDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBF02B82EB3A00B20014 /* MovieDetailModel.swift */; };
 		4BB0BBF32B82F9B700B20014 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBF22B82F9B700B20014 /* RoundButton.swift */; };
 		4BB0BBF52B83136B00B20014 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBF42B83136B00B20014 /* RoundImageView.swift */; };
 		4BB0BBF72B83193700B20014 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBF62B83193600B20014 /* UILabel+Extension.swift */; };
@@ -88,7 +87,6 @@
 		4BB0BBE92B82E2C200B20014 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		4BB0BBEC2B82E5BE00B20014 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		4BB0BBEE2B82EA8E00B20014 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
-		4BB0BBF02B82EB3A00B20014 /* MovieDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailModel.swift; sourceTree = "<group>"; };
 		4BB0BBF22B82F9B700B20014 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		4BB0BBF42B83136B00B20014 /* RoundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundImageView.swift; sourceTree = "<group>"; };
 		4BB0BBF62B83193600B20014 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 			children = (
 				4BB0BBD02B8223CC00B20014 /* PopularMoviesResponse.swift */,
 				4BB0BBCC2B820C6400B20014 /* MovieItem.swift */,
-				4BB0BBF02B82EB3A00B20014 /* MovieDetailModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -449,7 +446,6 @@
 				4B7B9AF72B81B933009B8E9A /* SceneDelegate.swift in Sources */,
 				4BB0BC082B8364C100B20014 /* MoviesViewModel.swift in Sources */,
 				4BB0BC052B83610C00B20014 /* MovieDetailView.swift in Sources */,
-				4BB0BBF12B82EB3A00B20014 /* MovieDetailModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

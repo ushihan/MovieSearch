@@ -18,4 +18,5 @@ struct MovieItem: Hashable {
     let releaseYear: String
     let userScore: String
     let genreList: [String]
+    let overview: String
 }

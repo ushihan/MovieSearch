@@ -22,9 +22,10 @@ class MoviesViewModel {
                         MovieItem(id: String($0.id),
                                   imageURL: "https://image.tmdb.org/t/p/w500/pWsD91G2R1Da3AKM3ymr3UoIfRb.jpg",
                                   title: $0.title,
-                                  releaseYear: $0.releaseDate,
-                                  userScore: String($0.voteAverage),
-                                  genreList: $0.genreIds.map({ String($0) }) ) }
+                                  releaseYear: String($0.releaseDate.prefix(4)),
+                                  userScore: ($0.voteAverage * 10).formatted(.number.precision(.fractionLength(0))),
+                                  genreList: $0.genreIds.map({ String($0) }),
+                                  overview: $0.overview)}
 
                 case .failure(let error):
                     print(error.localizedDescription)
