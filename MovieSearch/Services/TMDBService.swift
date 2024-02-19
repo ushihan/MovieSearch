@@ -37,7 +37,6 @@ class TMDBService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer " + TMDBService.apiKey, forHTTPHeaderField: "Authorization")
         return request
-
     }
 
     func fetchPopularMovies(page: Int = 1, completion: @escaping (Result<PopularMoviesResponse, Error>) -> Void) {
