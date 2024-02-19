@@ -21,19 +21,11 @@ class MovieCell: UITableViewCell {
     }()
 
     private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 16, weight: .bold)
-        label.textAlignment = .left
-        return label
+        return UILabel(textColor: .black, font: .systemFont(ofSize: 16, weight: .bold))
     }()
 
     private lazy var releaseYearLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor(hex: "#959595")
-        label.font = .systemFont(ofSize: 12)
-        label.textAlignment = .left
-        return label
+        return UILabel(textColor: UIColor(hex: "#959595"), font: .systemFont(ofSize: 12))
     }()
 
     private lazy var scoreContainer: UIView = {
@@ -54,21 +46,11 @@ class MovieCell: UITableViewCell {
     }()
 
     private lazy var scoreLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 12, weight: .bold)
-        label.textAlignment = .left
-
-        return label
+        return UILabel(textColor: .black, font: .systemFont(ofSize: 12, weight: .bold))
     }()
 
     private var userScoreLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 12)
-        label.textAlignment = .left
-        label.text = "user score"
-        return label
+        return UILabel(text: "user score", textColor: .black, font: .systemFont(ofSize: 12))
     }()
 
     private lazy var genreContainer: UIStackView = {
@@ -92,12 +74,7 @@ class MovieCell: UITableViewCell {
         movieImageView.loadImage(from: model.imageURL)
 
         model.genreList.forEach { genre in
-            let label = UILabel()
-            label.textColor = UIColor(hex: "#959595")
-            label.font = .systemFont(ofSize: 12)
-            label.textAlignment = .left
-            label.text = genre
-
+            let label = UILabel(text: genre, textColor: UIColor(hex: "#959595"), font: .systemFont(ofSize: 12))
             let view = UIView()
             view.backgroundColor = UIColor(hex: "#E6E6E6")
             view.addSubview(label)
