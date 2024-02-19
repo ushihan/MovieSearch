@@ -128,7 +128,7 @@ class MovieDetailViewController: UIViewController {
 
     private func getHeaderView() -> UIView {
         let titleLabel = UILabel(text: detailModel.title, textColor: .white,
-                                 font: .preferredFont(forTextStyle: .extraLargeTitle))
+                                 font: .preferredFont(forTextStyle: .largeTitle))
 
         let headerView = UIView()
         headerView.addSubview(backButton)
