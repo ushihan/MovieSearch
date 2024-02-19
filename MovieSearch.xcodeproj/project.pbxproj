@@ -29,6 +29,8 @@
 		4BB0BBE22B82253500B20014 /* PopularMovieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBE12B82253500B20014 /* PopularMovieTests.swift */; };
 		4BB0BBE42B822AF100B20014 /* Config.plist.example in Resources */ = {isa = PBXBuildFile; fileRef = 4BB0BBE32B822AF100B20014 /* Config.plist.example */; };
 		4BB0BBE62B8238D700B20014 /* PaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBE52B8238D700B20014 /* PaddedTextField.swift */; };
+		4BB0BBEA2B82E2C200B20014 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBE92B82E2C200B20014 /* UIImageView+Extensions.swift */; };
+		4BB0BBED2B82E5BE00B20014 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBEC2B82E5BE00B20014 /* ImageCacheManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		4BB0BBE12B82253500B20014 /* PopularMovieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMovieTests.swift; sourceTree = "<group>"; };
 		4BB0BBE32B822AF100B20014 /* Config.plist.example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Config.plist.example; sourceTree = "<group>"; };
 		4BB0BBE52B8238D700B20014 /* PaddedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedTextField.swift; sourceTree = "<group>"; };
+		4BB0BBE92B82E2C200B20014 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
+		4BB0BBEC2B82E5BE00B20014 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				4BB0BBCA2B81F18500B20014 /* UIColor+Extensions.swift */,
+				4BB0BBE92B82E2C200B20014 /* UIImageView+Extensions.swift */,
 				4BB0BBE52B8238D700B20014 /* PaddedTextField.swift */,
 			);
 			path = Utilities;
@@ -381,7 +386,9 @@
 				4BB0BBCD2B820C6400B20014 /* MovieItem.swift in Sources */,
 				4BB0BBD52B82242100B20014 /* ConfigurationManager.swift in Sources */,
 				4B7B9AF92B81B933009B8E9A /* MoviesViewController.swift in Sources */,
+				4BB0BBED2B82E5BE00B20014 /* ImageCacheManager.swift in Sources */,
 				4BB0BBCB2B81F18500B20014 /* UIColor+Extensions.swift in Sources */,
+				4BB0BBEA2B82E2C200B20014 /* UIImageView+Extensions.swift in Sources */,
 				4BB0BBD32B8223F700B20014 /* TMDBService.swift in Sources */,
 				4B7B9AF52B81B933009B8E9A /* AppDelegate.swift in Sources */,
 				4BB0BBC22B81E66B00B20014 /* MovieCell.swift in Sources */,

@@ -85,14 +85,11 @@ class MovieCell: UITableViewCell {
         setupViews()
     }
 
-        if let imageUrl = URL(string: model.imageURL) {
-            loadImage(from: imageUrl)
-        }
-
     private func setupInformation(with model: MovieItem) {
         titleLabel.text = model.title
         releaseYearLabel.text = model.releaseYear
         scoreLabel.text = model.userScore + "%"
+        movieImageView.loadImage(from: model.imageURL)
 
         model.genreList.forEach { genre in
             let label = UILabel()
@@ -115,16 +112,6 @@ class MovieCell: UITableViewCell {
         DispatchQueue.main.async { [weak self] in
             self?.genreContainer.arrangedSubviews.forEach { subview in
                 subview.layer.cornerRadius = subview.frame.height / 2
-            }
-        }
-    }
-
-    func loadImage(from url: URL) {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            if let imageData = try? Data(contentsOf: url), let image = UIImage(data: imageData) {
-                DispatchQueue.main.async {
-                    self?.movieImageView.image = image
-                }
             }
         }
     }
