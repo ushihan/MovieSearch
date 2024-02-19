@@ -7,11 +7,18 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 class MoviesViewController: UIViewController {
 
+    private var viewModel = MoviesViewModel()
+    private var cancellables = Set<AnyCancellable>()
+
     private var customView: MoviesView {
-        return view as! MoviesView
+        guard let view = view as? MoviesView else {
+            fatalError("view should be MoviesView")
+        }
+        return view
     }
 
     private var dataSource: UITableViewDiffableDataSource<MoviewSection, MovieItem>!
@@ -24,6 +31,8 @@ class MoviesViewController: UIViewController {
         super.viewDidLoad()
         setTableView()
         customView.searchTextField.delegate = self
+
+        viewModel.fetchPopularMovie()
     }
 
     private func setTableView() {
@@ -39,17 +48,15 @@ class MoviesViewController: UIViewController {
             return cell
         }
 
-        var snapshot = NSDiffableDataSourceSnapshot<MoviewSection, MovieItem>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems([MovieItem(id: "000",
-                                        imageURL: "https://image.tmdb.org/t/p/w500/pWsD91G2R1Da3AKM3ymr3UoIfRb.jpg",
-                                        title: "Five Nights at Freddys", releaseYear: "2023",
-                                        userScore: "70", genreList: ["Animation", "Family"]),
-                              MovieItem(id: "111",
-                                        imageURL: "https://image.tmdb.org/t/p/w500/pWsD91G2R1Da3AKM3ymr3UoIfRb.jpg",
-                                        title: "Five Nights at Freddys", releaseYear: "2023",
-                                        userScore: "70", genreList: ["Animation", "Family"])])
-        dataSource.apply(snapshot, animatingDifferences: true)
+        viewModel.$movies
+            .receive(on: RunLoop.main)
+            .sink { [weak self] movies in
+                var snapshot = NSDiffableDataSourceSnapshot<MoviewSection, MovieItem>()
+                snapshot.appendSections([.main])
+                snapshot.appendItems(movies)
+                self?.dataSource.apply(snapshot, animatingDifferences: true)
+            }
+            .store(in: &cancellables)
     }
 }
 
