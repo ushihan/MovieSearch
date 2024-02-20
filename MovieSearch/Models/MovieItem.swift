@@ -13,6 +13,7 @@ enum MoviewSection {
 
 struct MovieItem: Hashable {
     let id: String
+    let backdropImageURL: String
     let imageURL: String
     let title: String
     let releaseYear: String

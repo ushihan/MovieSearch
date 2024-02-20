@@ -10,6 +10,7 @@ import Foundation
 class TMDBService {
     static let shared = TMDBService()
     private static let apiHost = "api.themoviedb.org"
+    private static let imageHost = "image.tmdb.org"
     private static let apiKey = ConfigurationManager.shared.getAPIKey()
 
     private let session: URLSession
@@ -18,10 +19,10 @@ class TMDBService {
         self.session = session
     }
 
-    private func getURL(path: String, queryParameters: [String: String] = [:]) -> URL {
+    private func getURL(path: String, queryParameters: [String: String] = [:], isImage: Bool = false) -> URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = TMDBService.apiHost
+        components.host = isImage == true ? TMDBService.imageHost : TMDBService.apiHost
         components.path = path
 
         components.queryItems = queryParameters.map { URLQueryItem(name: $0.key, value: $0.value) }
@@ -56,5 +57,9 @@ class TMDBService {
                 completion(.failure(error))
             }
         }.resume()
+    }
+
+    func fetchImageFullUrl(path: String) -> String {
+        return getURL(path: "/t/p/original/" + path, isImage: true).absoluteString
     }
 }

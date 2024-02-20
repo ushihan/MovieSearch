@@ -147,7 +147,8 @@ class MovieRatingView: UIView {
 
     private func getHeaderImageView() -> UIView {
         let imageView = UIImageView()
-        imageView.loadImage(from: movie.imageURL)
+        imageView.loadImage(from: movie.backdropImageURL)
+        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         let maskView = UIView()
         maskView.backgroundColor = UIColor.black.withAlphaComponent(0.6)

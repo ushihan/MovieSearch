@@ -20,7 +20,8 @@ class MoviesViewModel {
                 case .success(let moviesResponse):
                     self?.movies = moviesResponse.results.map {
                         MovieItem(id: String($0.id),
-                                  imageURL: "https://image.tmdb.org/t/p/w500/pWsD91G2R1Da3AKM3ymr3UoIfRb.jpg",
+                                  backdropImageURL: TMDBService.shared.fetchImageFullUrl(path: $0.backdropPath),
+                                  imageURL: TMDBService.shared.fetchImageFullUrl(path: $0.posterPath),
                                   title: $0.title,
                                   releaseYear: String($0.releaseDate.prefix(4)),
                                   userScore: ($0.voteAverage * 10).formatted(.number.precision(.fractionLength(0))),

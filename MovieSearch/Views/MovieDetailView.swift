@@ -104,8 +104,10 @@ class MovieDetailView: UIView {
 
     private func getHeaderImageView() -> UIView {
         let imageView = UIImageView()
-        imageView.loadImage(from: movie.imageURL)
+        imageView.loadImage(from: movie.backdropImageURL)
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+
         let maskView = UIView()
         maskView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         maskView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
