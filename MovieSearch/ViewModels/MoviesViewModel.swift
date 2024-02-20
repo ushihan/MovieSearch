@@ -10,11 +10,27 @@ import Combine
 
 class MoviesViewModel {
     var searchMovie = CurrentValueSubject<String, Never>("")
+    private var genres: [Int: String] = [:]
     @Published var movies: [MovieItem] = []
 
     private var cancellables = Set<AnyCancellable>()
 
     init() {
+        Task {
+            do {
+                let resultResponse = try await TMDBService.shared.fetchMovieGenre()
+                resultResponse.genres.forEach { genre in
+                    genres[genre.id] = genre.name
+                }
+                subscribeMovies()
+            } catch {
+                // Error handling
+                print(error)
+            }
+        }
+    }
+
+    private func subscribeMovies() {
         searchMovie
             .removeDuplicates()
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
@@ -38,13 +54,13 @@ class MoviesViewModel {
                                     imageURL = TMDBService.shared.fetchImageFullUrl(path: posterPath)
                                 }
                                 return MovieItem(id: String($0.id),
-                                              backdropImageURL: backdropImageURL,
-                                              imageURL: imageURL,
-                                              title: $0.title,
-                                              releaseYear: String($0.releaseDate.prefix(4)),
-                                              userScore: ($0.voteAverage * 10).formatted(.number.precision(.fractionLength(0))),
-                                              genreList: $0.genreIds.map({ String($0) }),
-                                              overview: $0.overview)
+                                                 backdropImageURL: backdropImageURL,
+                                                 imageURL: imageURL,
+                                                 title: $0.title,
+                                                 releaseYear: String($0.releaseDate.prefix(4)),
+                                                 userScore: ($0.voteAverage * 10).formatted(.number.precision(.fractionLength(0))),
+                                                 genreList: $0.genreIds.compactMap { self.genres[$0] },
+                                                 overview: $0.overview)
                             }
                             promise(.success(movieItem))
                         } catch {

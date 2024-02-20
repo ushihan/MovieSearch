@@ -40,6 +40,15 @@ class TMDBService {
         return request
     }
 
+    func fetchMovieGenre() async throws -> GenresResponse {
+        let url = getURL(path: "/3/genre/movie/list")
+        let request = getURLRequest(url: url)
+
+        let (data, _) = try await session.data(for: request)
+        let genreResponse = try JSONDecoder().decode(GenresResponse.self, from: data)
+        return genreResponse
+    }
+
     func fetchPopularMovies(page: Int = 1) async throws -> MoviesResponse {
         let url = getURL(path: "/3/movie/popular", queryParameters: ["page": String(page)])
         let request = getURLRequest(url: url)
