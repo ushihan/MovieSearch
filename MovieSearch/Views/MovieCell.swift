@@ -62,18 +62,18 @@ class MovieCell: UITableViewCell {
 
     // MARK: - set up data
 
-    func configure(with model: MovieItem) {
-        setupInformation(with: model)
+    func configure(with movie: MovieItem) {
+        setupInformation(with: movie)
         setupViews()
     }
 
-    private func setupInformation(with model: MovieItem) {
-        titleLabel.text = model.title
-        releaseYearLabel.text = model.releaseYear
-        scoreLabel.text = model.userScore + "%"
-        movieImageView.loadImage(from: model.imageURL)
+    private func setupInformation(with movie: MovieItem) {
+        titleLabel.text = movie.title
+        releaseYearLabel.text = movie.releaseYear
+        scoreLabel.text = movie.userScore + "%"
+        movieImageView.loadImage(from: movie.imageURL)
 
-        model.genreList.forEach { genre in
+        movie.genreList.forEach { genre in
             let label = UILabel(text: genre, textColor: UIColor(hex: "#959595"), font: .systemFont(ofSize: 12))
             let view = UIView()
             view.backgroundColor = UIColor(hex: "#E6E6E6")

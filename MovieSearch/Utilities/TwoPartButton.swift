@@ -21,9 +21,9 @@ struct TwoPartStyleModel {
 
 class TwoPartButton: UIButton {
 
-    init(model: TwoPartStyleModel) {
+    init(style: TwoPartStyleModel) {
         super.init(frame: .zero)
-        setupLayout(model: model)
+        setupLayout(style: style)
     }
 
     required init?(coder: NSCoder) {
@@ -36,14 +36,14 @@ class TwoPartButton: UIButton {
         layer.cornerRadius = 10
     }
 
-    private func setupLayout(model: TwoPartStyleModel) {
-        let topView = UILabel(text: model.topText, textColor: model.topTextColor,
-                              font: model.topFont, textAlignment: .center)
-        topView.backgroundColor = model.topColor
+    private func setupLayout(style: TwoPartStyleModel) {
+        let topView = UILabel(text: style.topText, textColor: style.topTextColor,
+                              font: style.topFont, textAlignment: .center)
+        topView.backgroundColor = style.topColor
 
-        let bottomView = UILabel(text: model.bottomText, textColor: model.bottomTextColor,
-                                 font: model.bottomFont, textAlignment: .center)
-        bottomView.backgroundColor = model.bottomColor
+        let bottomView = UILabel(text: style.bottomText, textColor: style.bottomTextColor,
+                                 font: style.bottomFont, textAlignment: .center)
+        bottomView.backgroundColor = style.bottomColor
 
         addSubview(topView)
         addSubview(bottomView)

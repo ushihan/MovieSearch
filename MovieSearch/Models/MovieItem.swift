@@ -1,5 +1,5 @@
 //
-//  MovieModel.swift
+//  MovieItem.swift
 //  MovieSearch
 //
 //  Created by Shih-Han Hsu on 18/2/2024.

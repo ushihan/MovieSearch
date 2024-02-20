@@ -76,7 +76,7 @@ extension MoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         guard let selectedMovie = dataSource.itemIdentifier(for: indexPath) else { return }
-        coordinator?.navigateToDetail(model: selectedMovie)
+        coordinator?.navigateToDetail(with: selectedMovie)
     }
 }
 

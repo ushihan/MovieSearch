@@ -27,8 +27,8 @@ class AppCoordinator: Coordinator {
         window.rootViewController = moviesViewController
     }
 
-    func navigateToDetail(model: MovieItem) {
-        let detailViewController = MovieDetailViewController(model: model)
+    func navigateToDetail(with movie: MovieItem) {
+        let detailViewController = MovieDetailViewController(with: movie)
         detailViewController.modalPresentationStyle = .fullScreen
         detailViewController.modalTransitionStyle = .coverVertical
         window.rootViewController?.present(detailViewController, animated: true)

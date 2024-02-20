@@ -10,7 +10,7 @@ import UIKit
 
 class MovieDetailView: UIView {
 
-    private var detailModel: MovieItem
+    private var movie: MovieItem
 
     let backButton: UIButton = {
         let button = RoundButton()
@@ -48,7 +48,7 @@ class MovieDetailView: UIView {
                                                  bottomColor: .black, bottomText: "add personal rating",
                                                  bottomTextColor: UIColor(hex: "#D7BA8E"),
                                                  bottomFont: .systemFont(ofSize: 12))
-        return TwoPartButton(model: buttonStyleModel)
+        return TwoPartButton(style: buttonStyleModel)
     }()
 
     let viewFavsButton: UIButton = {
@@ -65,8 +65,8 @@ class MovieDetailView: UIView {
         return button
     }()
 
-    init(detailModel: MovieItem) {
-        self.detailModel = detailModel
+    init(with movie: MovieItem) {
+        self.movie = movie
         super.init(frame: .zero)
         setupLayout()
     }
@@ -105,7 +105,7 @@ class MovieDetailView: UIView {
 
     private func getHeaderImageView() -> UIView {
         let imageView = UIImageView()
-        imageView.loadImage(from: detailModel.imageURL)
+        imageView.loadImage(from: movie.imageURL)
         imageView.contentMode = .scaleAspectFill
         let maskView = UIView()
         maskView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
@@ -116,7 +116,7 @@ class MovieDetailView: UIView {
     }
 
     private func getHeaderView() -> UIView {
-        let titleLabel = UILabel(text: detailModel.title, textColor: .white,
+        let titleLabel = UILabel(text: movie.title, textColor: .white,
                                  font: .preferredFont(forTextStyle: .largeTitle))
 
         let headerView = UIView()
@@ -138,7 +138,7 @@ class MovieDetailView: UIView {
 
     private func getDetailView() -> UIView {
         let posterImageView = RoundImageView(roundingCorners: [.topRight], borderWidth: 5)
-        posterImageView.loadImage(from: detailModel.imageURL)
+        posterImageView.loadImage(from: movie.imageURL)
         posterImageView.contentMode = .scaleAspectFill
 
         let informationView = getInformationView()
@@ -185,16 +185,16 @@ class MovieDetailView: UIView {
     }
 
     private func getInformationView() -> UIView {
-        let titleLabel = UILabel(text: detailModel.title, textColor: .black,
+        let titleLabel = UILabel(text: movie.title, textColor: .black,
                                  font: .systemFont(ofSize: 16, weight: .bold))
-        let releaseLabel = UILabel(text: detailModel.releaseYear, textColor: UIColor(hex: "#959595"),
+        let releaseLabel = UILabel(text: movie.releaseYear, textColor: UIColor(hex: "#959595"),
                                    font: .systemFont(ofSize: 12))
         let genreContainer = getGenreContainer()
         let scoreLabel = getScoreLabel()
         let userScoreLabel = UILabel(text: "user score", textColor: .black, font: .systemFont(ofSize: 12))
 
         let scoreProgressView = UIProgressView(progressViewStyle: .default)
-        scoreProgressView.progress = (Float(detailModel.userScore) ?? 0) / 100
+        scoreProgressView.progress = (Float(movie.userScore) ?? 0) / 100
         scoreProgressView.progressTintColor = UIColor(hex: "#4CAB4A")
 
         let container = UIView()
@@ -243,7 +243,7 @@ class MovieDetailView: UIView {
         let container = UIStackView()
         container.axis = .horizontal
         container.spacing = 8
-        detailModel.genreList.forEach { genre in
+        movie.genreList.forEach { genre in
             let label = UILabel(text: genre, textColor: UIColor(hex: "#959595"), font: .systemFont(ofSize: 12))
             container.addArrangedSubview(label)
         }
@@ -252,7 +252,7 @@ class MovieDetailView: UIView {
 
     private func getScoreLabel() -> UILabel {
         let label = UILabel()
-        let attributedString = NSMutableAttributedString(string: detailModel.userScore,
+        let attributedString = NSMutableAttributedString(string: movie.userScore,
                                                          attributes: [NSAttributedString.Key.font:
                                                                         UIFont.systemFont(ofSize: 20, weight: .bold)])
         attributedString.append(NSAttributedString(string: " %",
@@ -279,11 +279,11 @@ class MovieDetailView: UIView {
 
     private func getOverviewView() -> UIView {
         let titleLabel = UILabel(text: "Overview", textColor: .black, font: .systemFont(ofSize: 16, weight: .bold))
-        let overviewLabel = UILabel(text: detailModel.overview, textColor: .black, font: .systemFont(ofSize: 16))
+        let overviewLabel = UILabel(text: movie.overview, textColor: .black, font: .systemFont(ofSize: 16))
         overviewLabel.numberOfLines = 0
 
         let overviewTextView = UITextView()
-        overviewTextView.text = detailModel.overview
+        overviewTextView.text = movie.overview
         overviewTextView.font = .systemFont(ofSize: 16)
         overviewTextView.textColor = .black
         overviewTextView.isEditable = false
