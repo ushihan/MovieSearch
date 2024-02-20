@@ -39,13 +39,13 @@ class MoviesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setTableView()
+        setupTableView()
         customView.searchTextField.delegate = self
 
         viewModel.fetchPopularMovie()
     }
 
-    private func setTableView() {
+    private func setupTableView() {
         customView.tableView.register(MovieCell.self, forCellReuseIdentifier: "movieCell")
         customView.tableView.delegate = self
 
@@ -64,7 +64,7 @@ class MoviesViewController: UIViewController {
                 var snapshot = NSDiffableDataSourceSnapshot<MoviewSection, MovieItem>()
                 snapshot.appendSections([.main])
                 snapshot.appendItems(movies)
-                self?.dataSource.apply(snapshot, animatingDifferences: true)
+                self?.dataSource.apply(snapshot, animatingDifferences: false)
             }
             .store(in: &cancellables)
     }

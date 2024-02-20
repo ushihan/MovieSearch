@@ -13,9 +13,6 @@ class MovieDetailView: UIView {
     private var movie: MovieItem
 
     let backButton: UIButton = {
-        let button = RoundButton()
-        button.tintColor = .white
-
         var config = UIButton.Configuration.filled()
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 10)
         config.image = UIImage(systemName: "chevron.backward",
@@ -28,6 +25,8 @@ class MovieDetailView: UIView {
         config.attributedTitle = AttributedString("Back to Search", attributes: AttributeContainer(attributes))
         config.imagePadding = 10
         config.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 24, bottom: 7, trailing: 24)
+
+        let button = RoundButton()
         button.configuration = config
 
         return button

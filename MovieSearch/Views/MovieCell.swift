@@ -10,6 +10,8 @@ import UIKit
 
 class MovieCell: UITableViewCell {
 
+    static let identifier = "FavoriteCell"
+
     // MARK: - components
 
     private lazy var movieImageView: UIImageView = {
@@ -20,15 +22,12 @@ class MovieCell: UITableViewCell {
         return imageView
     }()
 
-    private lazy var titleLabel: UILabel = {
-        return UILabel(textColor: .black, font: .systemFont(ofSize: 16, weight: .bold))
-    }()
-
-    private lazy var releaseYearLabel: UILabel = {
-        return UILabel(textColor: UIColor(hex: "#959595"), font: .systemFont(ofSize: 12))
-    }()
+    private let titleLabel = UILabel(textColor: .black, font: .systemFont(ofSize: 16, weight: .bold))
+    private let releaseYearLabel = UILabel(textColor: UIColor(hex: "#959595"), font: .systemFont(ofSize: 12))
+    private let scoreLabel = UILabel(textColor: .black, font: .systemFont(ofSize: 12, weight: .bold))
 
     private lazy var scoreContainer: UIView = {
+        let userScoreLabel = UILabel(text: "user score", textColor: .black, font: .systemFont(ofSize: 12))
         let view = UIView()
         view.addSubview(scoreLabel)
         view.addSubview(userScoreLabel)
@@ -43,14 +42,6 @@ class MovieCell: UITableViewCell {
         }
 
         return view
-    }()
-
-    private lazy var scoreLabel: UILabel = {
-        return UILabel(textColor: .black, font: .systemFont(ofSize: 12, weight: .bold))
-    }()
-
-    private var userScoreLabel: UILabel = {
-        return UILabel(text: "user score", textColor: .black, font: .systemFont(ofSize: 12))
     }()
 
     private lazy var genreContainer: UIStackView = {

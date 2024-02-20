@@ -40,9 +40,12 @@ class MovieRatingViewController: UIViewController {
     }
 
     private func setupAction() {
-        // set up button event: backButton, favoriteButton, rateButton, viewFavsButton
         customView.backButton.addAction(UIAction { [weak self] _ in
             self?.dismiss(animated: true)
+        }, for: .touchUpInside)
+
+        customView.viewFavsButton.addAction(UIAction { [weak self] _ in
+            self?.coordinator?.navigateToFavorite()
         }, for: .touchUpInside)
     }
 }

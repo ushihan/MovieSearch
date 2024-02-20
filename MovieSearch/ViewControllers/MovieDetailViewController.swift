@@ -40,7 +40,6 @@ class MovieDetailViewController: UIViewController {
     }
 
     private func setupAction() {
-        // set up button event: backButton, favoriteButton, rateButton, viewFavsButton
         customView.backButton.addAction(UIAction { [weak self] _ in
             self?.dismiss(animated: true)
         }, for: .touchUpInside)
@@ -48,6 +47,10 @@ class MovieDetailViewController: UIViewController {
         customView.rateButton.addAction(UIAction { [weak self] _ in
             guard let self = self else { return }
             self.coordinator?.navigateToRating(with: self.movie)
+        }, for: .touchUpInside)
+
+        customView.viewFavsButton.addAction(UIAction { [weak self] _ in
+            self?.coordinator?.navigateToFavorite()
         }, for: .touchUpInside)
     }
 }
