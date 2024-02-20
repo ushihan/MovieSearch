@@ -104,9 +104,11 @@ class MovieDetailView: UIView {
 
     private func getHeaderImageView() -> UIView {
         let imageView = UIImageView()
-        imageView.loadImage(from: movie.backdropImageURL)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        if let imageURL = movie.backdropImageURL {
+            imageView.loadImage(from: imageURL)
+        }
 
         let maskView = UIView()
         maskView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
@@ -139,8 +141,10 @@ class MovieDetailView: UIView {
 
     private func getDetailView() -> UIView {
         let posterImageView = RoundImageView(roundingCorners: [.topRight], borderWidth: 5)
-        posterImageView.loadImage(from: movie.imageURL)
         posterImageView.contentMode = .scaleAspectFill
+        if let imageURL = movie.imageURL {
+            posterImageView.loadImage(from: imageURL)
+        }
 
         let informationView = getInformationView()
         let buttonContainer = getButtonContainer()

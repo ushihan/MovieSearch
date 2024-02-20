@@ -62,7 +62,10 @@ class MovieCell: UITableViewCell {
         titleLabel.text = movie.title
         releaseYearLabel.text = movie.releaseYear
         scoreLabel.text = movie.userScore + "%"
-        movieImageView.loadImage(from: movie.imageURL)
+
+        if let imageURL = movie.imageURL {
+            movieImageView.loadImage(from: imageURL)
+        }
 
         movie.genreList.forEach { genre in
             let label = UILabel(text: genre, textColor: UIColor(hex: "#959595"), font: .systemFont(ofSize: 12))

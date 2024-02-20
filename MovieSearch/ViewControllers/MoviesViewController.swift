@@ -41,8 +41,6 @@ class MoviesViewController: UIViewController {
         super.viewDidLoad()
         setupTableView()
         customView.searchTextField.delegate = self
-
-        viewModel.fetchPopularMovie()
     }
 
     private func setupTableView() {
@@ -84,7 +82,9 @@ extension MoviesViewController: UITableViewDelegate {
 extension MoviesViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // call search API
+        if let searchText = textField.text {
+            viewModel.searchMovie.send(searchText)
+        }
         textField.resignFirstResponder()
         return true
     }

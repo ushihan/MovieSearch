@@ -9,30 +9,54 @@ import Foundation
 import Combine
 
 class MoviesViewModel {
+    var searchMovie = CurrentValueSubject<String, Never>("")
     @Published var movies: [MovieItem] = []
 
     private var cancellables = Set<AnyCancellable>()
 
-    func fetchPopularMovie() {
-        TMDBService.shared.fetchPopularMovies { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let moviesResponse):
-                    self?.movies = moviesResponse.results.map {
-                        MovieItem(id: String($0.id),
-                                  backdropImageURL: TMDBService.shared.fetchImageFullUrl(path: $0.backdropPath),
-                                  imageURL: TMDBService.shared.fetchImageFullUrl(path: $0.posterPath),
-                                  title: $0.title,
-                                  releaseYear: String($0.releaseDate.prefix(4)),
-                                  userScore: ($0.voteAverage * 10).formatted(.number.precision(.fractionLength(0))),
-                                  genreList: $0.genreIds.map({ String($0) }),
-                                  overview: $0.overview)}
-
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self?.movies = []
+    init() {
+        searchMovie
+            .removeDuplicates()
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .flatMap { searchText in
+                Future<[MovieItem], Never> { promise in
+                    Task {
+                        do {
+                            let moviesResponse: MoviesResponse
+                            if searchText.isEmpty {
+                                moviesResponse = try await TMDBService.shared.fetchPopularMovies()
+                            } else {
+                                moviesResponse = try await TMDBService.shared.searchMovies(keyword: searchText)
+                            }
+                            let movieItem = moviesResponse.results.map {
+                                var backdropImageURL: String? = nil
+                                var imageURL: String? = nil
+                                if let backdropPath = $0.backdropPath {
+                                    backdropImageURL = TMDBService.shared.fetchImageFullUrl(path: backdropPath)
+                                }
+                                if let posterPath = $0.posterPath {
+                                    imageURL = TMDBService.shared.fetchImageFullUrl(path: posterPath)
+                                }
+                                return MovieItem(id: String($0.id),
+                                              backdropImageURL: backdropImageURL,
+                                              imageURL: imageURL,
+                                              title: $0.title,
+                                              releaseYear: String($0.releaseDate.prefix(4)),
+                                              userScore: ($0.voteAverage * 10).formatted(.number.precision(.fractionLength(0))),
+                                              genreList: $0.genreIds.map({ String($0) }),
+                                              overview: $0.overview)
+                            }
+                            promise(.success(movieItem))
+                        } catch {
+                            // Error handling
+                            print(error)
+                            promise(.success([]))
+                        }
+                    }
                 }
             }
-        }
+            .receive(on: RunLoop.main)
+            .assign(to: \.movies, on: self)
+            .store(in: &cancellables)
     }
 }

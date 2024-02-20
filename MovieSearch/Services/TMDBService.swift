@@ -40,23 +40,22 @@ class TMDBService {
         return request
     }
 
-    func fetchPopularMovies(page: Int = 1, completion: @escaping (Result<PopularMoviesResponse, Error>) -> Void) {
+    func fetchPopularMovies(page: Int = 1) async throws -> MoviesResponse {
         let url = getURL(path: "/3/movie/popular", queryParameters: ["page": String(page)])
         let request = getURLRequest(url: url)
 
-        session.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
-                completion(.failure(error!))
-                return
-            }
+        let (data, _) = try await session.data(for: request)
+        let movieResponse = try JSONDecoder().decode(MoviesResponse.self, from: data)
+        return movieResponse
+    }
 
-            do {
-                let moviesResponse = try JSONDecoder().decode(PopularMoviesResponse.self, from: data)
-                completion(.success(moviesResponse))
-            } catch {
-                completion(.failure(error))
-            }
-        }.resume()
+    func searchMovies(keyword: String) async throws -> MoviesResponse {
+        let url = getURL(path: "/3/search/movie", queryParameters: ["query": keyword])
+        let request = getURLRequest(url: url)
+
+        let (data, _) = try await session.data(for: request)
+        let movieResponse = try JSONDecoder().decode(MoviesResponse.self, from: data)
+        return movieResponse
     }
 
     func fetchImageFullUrl(path: String) -> String {

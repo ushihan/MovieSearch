@@ -41,7 +41,7 @@ final class PopularMovieTests: XCTestCase {
                }
                """.data(using: .utf8)!
         do {
-            let decodedResponse = try JSONDecoder().decode(PopularMoviesResponse.self, from: json)
+            let decodedResponse = try JSONDecoder().decode(MoviesResponse.self, from: json)
             XCTAssertEqual(decodedResponse.page, 1)
             XCTAssertEqual(decodedResponse.totalPages, 10)
             XCTAssertEqual(decodedResponse.totalResults, 100)

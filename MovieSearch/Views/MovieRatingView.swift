@@ -85,8 +85,10 @@ class MovieRatingView: UIView {
                                     font: .preferredFont(forTextStyle: .body))
 
         let posterImageView = RoundImageView(roundingCorners: [.topRight], borderWidth: 5)
-        posterImageView.loadImage(from: movie.imageURL)
         posterImageView.contentMode = .scaleAspectFill
+        if let imageURL = movie.imageURL {
+            posterImageView.loadImage(from: imageURL)
+        }
 
         let rateButton = rateButton.setShadow()
         let viewFavsButton = viewFavsButton.setShadow()
@@ -147,9 +149,12 @@ class MovieRatingView: UIView {
 
     private func getHeaderImageView() -> UIView {
         let imageView = UIImageView()
-        imageView.loadImage(from: movie.backdropImageURL)
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
+        if let imageURL = movie.backdropImageURL {
+            imageView.loadImage(from: imageURL)
+        }
+
         let maskView = UIView()
         maskView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         maskView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

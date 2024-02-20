@@ -1,15 +1,15 @@
 //
-//  PopularMoviesResponse.swift
+//  MoviesResponse.swift
 //  MovieSearch
 //
 //  Created by Shih-Han Hsu on 18/2/2024.
 //
 
-struct PopularMoviesResponse: Codable {
+struct MoviesResponse: Codable {
     let page: Int
     let totalPages: Int
     let totalResults: Int
-    let results: [PopularMovie]
+    let results: [MovieDetail]
 
     enum CodingKeys: String, CodingKey {
         case totalPages = "total_pages"
@@ -18,16 +18,16 @@ struct PopularMoviesResponse: Codable {
     }
 }
 
-struct PopularMovie: Codable {
+struct MovieDetail: Codable {
     let adult: Bool
-    let backdropPath: String
+    let backdropPath: String?
     let genreIds: [Int]
     let id: Int
     let originalLanguage: String
     let originalTitle: String
     let overview: String
     let popularity: Double
-    let posterPath: String
+    let posterPath: String?
     let releaseDate: String
     let title: String
     let video: Bool
