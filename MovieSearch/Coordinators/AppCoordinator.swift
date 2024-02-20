@@ -16,6 +16,14 @@ class AppCoordinator: Coordinator {
 
     var window: UIWindow
 
+    private var topViewController: UIViewController? {
+        var topViewController = window.rootViewController
+        while let presentedViewController = topViewController?.presentedViewController {
+            topViewController = presentedViewController
+        }
+        return topViewController
+    }
+
     init(window: UIWindow) {
         self.window = window
     }
@@ -31,6 +39,15 @@ class AppCoordinator: Coordinator {
         let detailViewController = MovieDetailViewController(with: movie)
         detailViewController.modalPresentationStyle = .fullScreen
         detailViewController.modalTransitionStyle = .coverVertical
-        window.rootViewController?.present(detailViewController, animated: true)
+        detailViewController.coordinator = self
+        topViewController?.present(detailViewController, animated: true)
+    }
+
+    func navigateToRating(with movie: MovieItem) {
+        let ratingViewController = MovieRatingViewController(with: movie)
+        ratingViewController.modalPresentationStyle = .fullScreen
+        ratingViewController.modalTransitionStyle = .coverVertical
+        ratingViewController.coordinator = self
+        topViewController?.present(ratingViewController, animated: true)
     }
 }
