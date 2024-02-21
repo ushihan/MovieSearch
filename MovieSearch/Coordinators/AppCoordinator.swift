@@ -38,8 +38,8 @@ class AppCoordinator: Coordinator {
     }
 
     func navigateToDetail(with movie: MovieItem) {
-        let viewModel = MovieDetailViewModel(with: movie, movieDataStore: movieDataStore)
-        let detailViewController = MovieDetailViewController(viewModel: viewModel)
+        let viewModel = DetailViewModel(with: movie, movieDataStore: movieDataStore)
+        let detailViewController = DetailViewController(viewModel: viewModel)
         detailViewController.modalPresentationStyle = .fullScreen
         detailViewController.modalTransitionStyle = .coverVertical
         detailViewController.coordinator = self
@@ -48,7 +48,7 @@ class AppCoordinator: Coordinator {
 
     func navigateToRating(with movie: MovieItem) {
         let viewModel = RatingViewModel(with: movie, movieDataStore: movieDataStore)
-        let ratingViewController = MovieRatingViewController(viewModel: viewModel)
+        let ratingViewController = RatingViewController(viewModel: viewModel)
         ratingViewController.modalPresentationStyle = .fullScreen
         ratingViewController.modalTransitionStyle = .coverVertical
         ratingViewController.coordinator = self

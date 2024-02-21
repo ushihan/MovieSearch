@@ -1,32 +1,32 @@
 //
-//  MovieDetailViewController.swift
+//  RatingViewController.swift
 //  MovieSearch
 //
-//  Created by Shih-Han Hsu on 19/2/2024.
+//  Created by Shih-Han Hsu on 20/2/2024.
 //
 
 import Foundation
 import UIKit
 import Combine
 
-class MovieDetailViewController: UIViewController {
+class RatingViewController: UIViewController {
 
     weak var coordinator: AppCoordinator?
-    private let viewModel: MovieDetailViewModel
+    private let viewModel: RatingViewModel
     private var cancellables = Set<AnyCancellable>()
 
-    private var customView: MovieDetailView {
-        guard let view = view as? MovieDetailView else {
-            fatalError("view should be MovieDetailView")
+    private var customView: MovieRatingView {
+        guard let view = view as? MovieRatingView else {
+            fatalError("view should be MovieRatingView")
         }
         return view
     }
 
     override func loadView() {
-        view = MovieDetailView()
+        view = MovieRatingView()
     }
 
-    init(viewModel: MovieDetailViewModel) {
+    init(viewModel: RatingViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
 
@@ -51,11 +51,6 @@ class MovieDetailViewController: UIViewController {
     private func setupAction() {
         customView.backButton.addAction(UIAction { [weak self] _ in
             self?.dismiss(animated: true)
-        }, for: .touchUpInside)
-
-        customView.rateButton.addAction(UIAction { [weak self] _ in
-            guard let self = self else { return }
-            self.coordinator?.navigateToRating(with: self.viewModel.movie)
         }, for: .touchUpInside)
 
         customView.viewFavsButton.addAction(UIAction { [weak self] _ in

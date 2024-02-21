@@ -14,7 +14,7 @@ class MoviesViewController: UIViewController {
     weak var coordinator: AppCoordinator?
     private let viewModel: MoviesViewModel
     private var cancellables = Set<AnyCancellable>()
-    private var dataSource: UITableViewDiffableDataSource<MoviewSection, MovieItem>?
+    private var dataSource: UITableViewDiffableDataSource<MovieSection, MovieItem>?
 
     private var customView: MoviesView {
         guard let view = view as? MoviesView else {
@@ -46,7 +46,7 @@ class MoviesViewController: UIViewController {
         customView.tableView.register(MovieCell.self, forCellReuseIdentifier: "movieCell")
         customView.tableView.delegate = self
 
-        dataSource = UITableViewDiffableDataSource<MoviewSection, MovieItem>(tableView: customView.tableView) { (tableView, indexPath, item) -> UITableViewCell? in
+        dataSource = UITableViewDiffableDataSource<MovieSection, MovieItem>(tableView: customView.tableView) { (tableView, indexPath, item) -> UITableViewCell? in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell",
                                                            for: indexPath) as? MovieCell else {
                 return UITableViewCell()
@@ -58,7 +58,7 @@ class MoviesViewController: UIViewController {
         viewModel.$movies
             .receive(on: RunLoop.main)
             .sink { [weak self] movies in
-                var snapshot = NSDiffableDataSourceSnapshot<MoviewSection, MovieItem>()
+                var snapshot = NSDiffableDataSourceSnapshot<MovieSection, MovieItem>()
                 snapshot.appendSections([.main])
                 snapshot.appendItems(movies)
                 self?.dataSource?.apply(snapshot, animatingDifferences: false)

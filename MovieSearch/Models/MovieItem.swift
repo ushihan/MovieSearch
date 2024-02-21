@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MoviewSection {
+enum MovieSection {
     case main
 }
 

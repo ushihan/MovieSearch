@@ -65,6 +65,8 @@ class MovieCell: UITableViewCell {
 
         if let imageURL = movie.imageURL {
             movieImageView.loadImage(from: imageURL)
+        } else {
+            movieImageView.image = nil
         }
 
         movie.genreList.forEach { genre in

@@ -203,14 +203,14 @@ class MovieDetailView: UIView {
     private func getHeaderView() -> UIView {
         let headerView = UIView()
         headerView.addSubview(backButton)
-        headerView.addSubview(titleLabel)
+        headerView.addSubview(headerLabel)
 
         backButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(34)
             make.top.equalToSuperview().inset(31)
         }
 
-        titleLabel.snp.makeConstraints { make in
+        headerLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(32)
             make.top.equalTo(backButton.snp.bottom).offset(18)
         }

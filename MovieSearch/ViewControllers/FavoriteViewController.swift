@@ -14,7 +14,7 @@ class FavoriteViewController: UIViewController {
     weak var coordinator: AppCoordinator?
     private let viewModel: FavoriteViewModel
     private var cancellables = Set<AnyCancellable>()
-    private var dataSource: UICollectionViewDiffableDataSource<MoviewSection, MovieItem>?
+    private var dataSource: UICollectionViewDiffableDataSource<MovieSection, MovieItem>?
 
     private var customView: FavoriteView {
         guard let view = view as? FavoriteView else {
@@ -45,7 +45,7 @@ class FavoriteViewController: UIViewController {
     private func setupCollectionView() {
         customView.collectionView.register(FavoriteCell.self, forCellWithReuseIdentifier: FavoriteCell.identifier)
 
-        dataSource = UICollectionViewDiffableDataSource<MoviewSection, MovieItem>(collectionView: customView.collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<MovieSection, MovieItem>(collectionView: customView.collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCell.identifier, for: indexPath) as? FavoriteCell else {
                 fatalError("Cannot create new cell")
             }
@@ -59,10 +59,10 @@ class FavoriteViewController: UIViewController {
         viewModel.$movies
             .receive(on: RunLoop.main)
             .sink { [weak self] movies in
-                var snapshot = NSDiffableDataSourceSnapshot<MoviewSection, MovieItem>()
+                var snapshot = NSDiffableDataSourceSnapshot<MovieSection, MovieItem>()
                 snapshot.appendSections([.main])
                 snapshot.appendItems(movies)
-                self?.dataSource?.apply(snapshot, animatingDifferences: false)
+                self?.dataSource?.apply(snapshot, animatingDifferences: true)
             }.store(in: &cancellables)
     }
 

@@ -20,7 +20,7 @@ class FavoriteCell: UICollectionViewCell {
         return imageView
     }()
 
-    let favoriteButton: UIButton = {
+    private let favoriteButton: UIButton = {
         let button = RoundButton()
         var config = UIButton.Configuration.filled()
         config.image = UIImage(named: "star_fill")
@@ -46,7 +46,7 @@ class FavoriteCell: UICollectionViewCell {
             posterImageView.image = nil
         }
 
-        scoreLabel.text = movie.myRating
+        scoreLabel.text = movie.myRating ?? "0"
     }
 
     private func setupViews() {

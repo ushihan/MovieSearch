@@ -1,5 +1,5 @@
 //
-//  MovieDetailViewModel.swift
+//  DetailViewModel.swift
 //  MovieSearch
 //
 //  Created by Shih-Han Hsu on 21/2/2024.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class MovieDetailViewModel {
+class DetailViewModel {
 
     var movie: MovieItem
     @Published var isFavorite: Bool = false
