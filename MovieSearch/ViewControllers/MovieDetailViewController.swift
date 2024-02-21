@@ -7,12 +7,13 @@
 
 import Foundation
 import UIKit
+import Combine
 
 class MovieDetailViewController: UIViewController {
 
     weak var coordinator: AppCoordinator?
     private let viewModel: MovieDetailViewModel
-    private var movie: MovieItem
+    private var cancellables = Set<AnyCancellable>()
 
     private var customView: MovieDetailView {
         guard let view = view as? MovieDetailView else {
@@ -22,13 +23,20 @@ class MovieDetailViewController: UIViewController {
     }
 
     override func loadView() {
-        view = MovieDetailView(with: movie)
+        view = MovieDetailView()
     }
 
-    init(with movie: MovieItem, viewModel: MovieDetailViewModel) {
-        self.movie = movie
+    init(viewModel: MovieDetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+
+        viewModel.$isFavorite
+            .receive(on: RunLoop.main)
+            .sink { [weak self] isFavorite in
+                guard let self = self else { return }
+                self.customView.updateView(movie: self.viewModel.movie, isFavorite: isFavorite)
+            }
+            .store(in: &cancellables)
     }
 
     required init?(coder: NSCoder) {
@@ -47,11 +55,16 @@ class MovieDetailViewController: UIViewController {
 
         customView.rateButton.addAction(UIAction { [weak self] _ in
             guard let self = self else { return }
-            self.coordinator?.navigateToRating(with: self.movie)
+            self.coordinator?.navigateToRating(with: self.viewModel.movie)
         }, for: .touchUpInside)
 
         customView.viewFavsButton.addAction(UIAction { [weak self] _ in
             self?.coordinator?.navigateToFavorite()
+        }, for: .touchUpInside)
+
+        customView.favoriteButton.addAction(UIAction { [weak self] _ in
+            guard let viewModel = self?.viewModel else { return }
+            viewModel.setFavorite(movie: viewModel.movie, favorite: !viewModel.isFavorite)
         }, for: .touchUpInside)
     }
 }

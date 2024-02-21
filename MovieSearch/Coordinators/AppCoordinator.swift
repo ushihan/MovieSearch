@@ -15,6 +15,7 @@ protocol Coordinator {
 class AppCoordinator: Coordinator {
 
     var window: UIWindow
+    private var movieDataStore: MovieDataStore
 
     private var topViewController: UIViewController? {
         var topViewController = window.rootViewController
@@ -26,18 +27,19 @@ class AppCoordinator: Coordinator {
 
     init(window: UIWindow) {
         self.window = window
+        self.movieDataStore = MovieDataStore()
     }
 
     func start() {
-        let viewModel = MoviesViewModel()
+        let viewModel = MoviesViewModel(movieDataStore: movieDataStore)
         let moviesViewController = MoviesViewController(viewModel: viewModel)
         moviesViewController.coordinator = self
         window.rootViewController = moviesViewController
     }
 
     func navigateToDetail(with movie: MovieItem) {
-        let viewModel = MovieDetailViewModel()
-        let detailViewController = MovieDetailViewController(with: movie, viewModel: viewModel)
+        let viewModel = MovieDetailViewModel(with: movie, movieDataStore: movieDataStore)
+        let detailViewController = MovieDetailViewController(viewModel: viewModel)
         detailViewController.modalPresentationStyle = .fullScreen
         detailViewController.modalTransitionStyle = .coverVertical
         detailViewController.coordinator = self
@@ -45,7 +47,8 @@ class AppCoordinator: Coordinator {
     }
 
     func navigateToRating(with movie: MovieItem) {
-        let ratingViewController = MovieRatingViewController(with: movie)
+        let viewModel = RatingViewModel(with: movie, movieDataStore: movieDataStore)
+        let ratingViewController = MovieRatingViewController(viewModel: viewModel)
         ratingViewController.modalPresentationStyle = .fullScreen
         ratingViewController.modalTransitionStyle = .coverVertical
         ratingViewController.coordinator = self
@@ -53,7 +56,8 @@ class AppCoordinator: Coordinator {
     }
 
     func navigateToFavorite() {
-        let favoriteViewController = FavoriteViewController()
+        let viewModel = FavoriteViewModel(movieDataStore: movieDataStore)
+        let favoriteViewController = FavoriteViewController(viewModel: viewModel)
         favoriteViewController.modalPresentationStyle = .fullScreen
         favoriteViewController.modalTransitionStyle = .coverVertical
         favoriteViewController.coordinator = self
@@ -61,7 +65,7 @@ class AppCoordinator: Coordinator {
     }
 
     func navigateToSearch() {
-        let viewModel = MoviesViewModel()
+        let viewModel = MoviesViewModel(movieDataStore: movieDataStore)
         let moviesViewController = MoviesViewController(viewModel: viewModel)
         moviesViewController.coordinator = self
 

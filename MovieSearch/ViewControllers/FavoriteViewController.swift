@@ -7,17 +7,29 @@
 
 import Foundation
 import UIKit
+import Combine
 
 class FavoriteViewController: UIViewController {
 
     weak var coordinator: AppCoordinator?
-    private var dataSource: UICollectionViewDiffableDataSource<FavoriteSection, FavoriteItem>!
+    private let viewModel: FavoriteViewModel
+    private var cancellables = Set<AnyCancellable>()
+    private var dataSource: UICollectionViewDiffableDataSource<MoviewSection, MovieItem>?
 
     private var customView: FavoriteView {
         guard let view = view as? FavoriteView else {
             fatalError("view should be FavoriteView")
         }
         return view
+    }
+
+    init(viewModel: FavoriteViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func loadView() {
@@ -33,18 +45,25 @@ class FavoriteViewController: UIViewController {
     private func setupCollectionView() {
         customView.collectionView.register(FavoriteCell.self, forCellWithReuseIdentifier: FavoriteCell.identifier)
 
-        dataSource = UICollectionViewDiffableDataSource<FavoriteSection, FavoriteItem>(collectionView: customView.collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<MoviewSection, MovieItem>(collectionView: customView.collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCell.identifier, for: indexPath) as? FavoriteCell else {
                 fatalError("Cannot create new cell")
             }
             cell.configure(with: item)
+            cell.buttonAction = {
+                self.viewModel.setFavorite(movie: item, favorite: false)
+            }
             return cell
         }
 
-        var snapshot = NSDiffableDataSourceSnapshot<FavoriteSection, FavoriteItem>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(FavoriteCache.shared.get())
-        dataSource.apply(snapshot, animatingDifferences: false)
+        viewModel.$movies
+            .receive(on: RunLoop.main)
+            .sink { [weak self] movies in
+                var snapshot = NSDiffableDataSourceSnapshot<MoviewSection, MovieItem>()
+                snapshot.appendSections([.main])
+                snapshot.appendItems(movies)
+                self?.dataSource?.apply(snapshot, animatingDifferences: false)
+            }.store(in: &cancellables)
     }
 
     private func setupAction() {

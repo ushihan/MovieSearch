@@ -26,4 +26,11 @@ class ConfigurationManager {
         }
         return apiKey
     }
+
+    func getAccountId() -> String {
+        guard let accountId = configurations?.object(forKey: "TMDBAccountId") as? String, !accountId.isEmpty else {
+            fatalError("TMDBAccountId is missing in Config.plist. Please ensure it's present and valid.")
+        }
+        return accountId
+    }
 }

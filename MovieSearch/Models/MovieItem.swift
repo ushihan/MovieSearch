@@ -20,4 +20,5 @@ struct MovieItem: Hashable {
     let userScore: String
     let genreList: [String]
     let overview: String
+    let myRating: String?
 }

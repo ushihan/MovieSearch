@@ -4,5 +4,7 @@
 <dict>
 	<key>TMDBAPIKey</key>
 	<string>eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2OWJkZmRkZWJlOTQ0NTQzODUxZTZhMTExY2JlYTVkYiIsInN1YiI6IjY1ZDE4YTUyZjk0NzViMDE2M2RhMzVlYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.sJLRvmDeKSSqTXtQBMNJ6elGN0FeSzcWBd7OndkC-tk</string>
+	<key>TMDBAccountId</key>
+	<string>21015369</string>
 </dict>
 </plist>

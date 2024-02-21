@@ -7,10 +7,13 @@
 
 import Foundation
 import UIKit
+import Combine
 
 class MovieRatingViewController: UIViewController {
 
     weak var coordinator: AppCoordinator?
+    private let viewModel: RatingViewModel
+    private var cancellables = Set<AnyCancellable>()
 
     private var customView: MovieRatingView {
         guard let view = view as? MovieRatingView else {
@@ -19,15 +22,21 @@ class MovieRatingViewController: UIViewController {
         return view
     }
 
-    private var movie: MovieItem
-
     override func loadView() {
-        view = MovieRatingView(with: movie)
+        view = MovieRatingView()
     }
 
-    init(with movie: MovieItem) {
-        self.movie = movie
+    init(viewModel: RatingViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+
+        viewModel.$isFavorite
+            .receive(on: RunLoop.main)
+            .sink { [weak self] isFavorite in
+                guard let self = self else { return }
+                self.customView.updateView(movie: self.viewModel.movie, isFavorite: isFavorite)
+            }
+            .store(in: &cancellables)
     }
 
     required init?(coder: NSCoder) {
@@ -46,6 +55,11 @@ class MovieRatingViewController: UIViewController {
 
         customView.viewFavsButton.addAction(UIAction { [weak self] _ in
             self?.coordinator?.navigateToFavorite()
+        }, for: .touchUpInside)
+
+        customView.favoriteButton.addAction(UIAction { [weak self] _ in
+            guard let viewModel = self?.viewModel else { return }
+            viewModel.setFavorite(movie: viewModel.movie, favorite: !viewModel.isFavorite)
         }, for: .touchUpInside)
     }
 }

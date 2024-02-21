@@ -1,5 +1,5 @@
 //
-//  MovieDetailViewModel.swift
+//  FavoriteViewModel.swift
 //  MovieSearch
 //
 //  Created by Shih-Han Hsu on 21/2/2024.
@@ -8,21 +8,19 @@
 import Foundation
 import Combine
 
-class MovieDetailViewModel {
+class FavoriteViewModel {
 
-    var movie: MovieItem
-    @Published var isFavorite: Bool = false
+    @Published var movies: [MovieItem] = []
     private var cancellables = Set<AnyCancellable>()
     private let movieDataStore: MovieDataStore
 
-    init(with movie: MovieItem, movieDataStore: MovieDataStore) {
-        self.movie = movie
+    init(movieDataStore: MovieDataStore) {
         self.movieDataStore = movieDataStore
 
         movieDataStore.$favoriteMovies
             .receive(on: RunLoop.main)
             .sink { [weak self] movies in
-                self?.isFavorite = movies.contains { $0.id == self?.movie.id }
+                self?.movies = movies
             }.store(in: &cancellables)
     }
 

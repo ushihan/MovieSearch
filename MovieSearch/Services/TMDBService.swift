@@ -13,6 +13,7 @@ class TMDBService {
     private static let apiHost = "api.themoviedb.org"
     private static let imageHost = "image.tmdb.org"
     private static let apiKey = ConfigurationManager.shared.getAPIKey()
+    private static let accountId = ConfigurationManager.shared.getAccountId()
 
     private let session: URLSession
 
@@ -34,10 +35,18 @@ class TMDBService {
         return url
     }
 
-    private func getURLRequest(url: URL) -> URLRequest {
+    private func getURLRequest(url: URL, method: String = "GET", postData: [String : Any]? = nil) -> URLRequest {
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer " + TMDBService.apiKey, forHTTPHeaderField: "Authorization")
+        request.httpMethod = method
+        if let postData = postData {
+            do {
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: [])
+            } catch let error {
+                print("Error serializing postData to JSON: \(error)")
+            }
+        }
         return request
     }
 
@@ -68,12 +77,22 @@ class TMDBService {
         return movieResponse
     }
 
-    func getMyFavorite(page: Int = 1) async throws -> MoviesResponse {
-        let url = getURL(path: "/3/account/21015369/favorite/movies", queryParameters: ["page": String(page)])
+    func fetchMyFavorite(page: Int = 1) async throws -> MoviesResponse {
+        let url = getURL(path: "/3/account/" + TMDBService.accountId  + "/favorite/movies", queryParameters: ["page": String(page)])
         let request = getURLRequest(url: url)
 
         let (data, _) = try await session.data(for: request)
         let response = try JSONDecoder().decode(MoviesResponse.self, from: data)
+        return response
+    }
+
+    func setFavorite(movieId: String, favorite: Bool) async throws -> MessageResponse {
+        let url = getURL(path: "/3/account/" + TMDBService.accountId  + "/favorite")
+        let parameters = ["media_type": "movie", "media_id": movieId, "favorite": favorite] as [String : Any]
+        let request = getURLRequest(url: url, method: "POST", postData: parameters)
+
+        let (data, _) = try await session.data(for: request)
+        let response = try JSONDecoder().decode(MessageResponse.self, from: data)
         return response
     }
 

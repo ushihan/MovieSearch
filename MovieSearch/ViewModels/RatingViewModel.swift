@@ -1,5 +1,5 @@
 //
-//  MovieDetailViewModel.swift
+//  RatingViewModel.swift
 //  MovieSearch
 //
 //  Created by Shih-Han Hsu on 21/2/2024.
@@ -8,9 +8,9 @@
 import Foundation
 import Combine
 
-class MovieDetailViewModel {
+class RatingViewModel {
 
-    var movie: MovieItem
+    let movie: MovieItem
     @Published var isFavorite: Bool = false
     private var cancellables = Set<AnyCancellable>()
     private let movieDataStore: MovieDataStore

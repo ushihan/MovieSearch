@@ -10,8 +10,6 @@ import UIKit
 
 class MovieRatingView: UIView {
 
-    private var movie: MovieItem
-
     let backButton: UIButton = {
         let button = RoundButton()
         button.tintColor = .white
@@ -33,10 +31,9 @@ class MovieRatingView: UIView {
         return button
     }()
 
-    let favoriteButton: UIButton = {
+    lazy var favoriteButton: UIButton = {
         let button = RoundButton()
         var config = UIButton.Configuration.filled()
-        config.image = UIImage(named: "star")
         config.background.backgroundColor = .white
         button.configuration = config
         return button
@@ -65,8 +62,23 @@ class MovieRatingView: UIView {
         return button
     }()
 
-    init(with movie: MovieItem) {
-        self.movie = movie
+    private let titleLabel = UILabel(textColor: .white, font: .preferredFont(forTextStyle: .largeTitle))
+    private let posterImageView = RoundImageView(roundingCorners: [.topRight], borderWidth: 5)
+
+    private var headerImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+
+        let maskView = UIView()
+        maskView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        maskView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        imageView.addSubview(maskView)
+
+        return imageView
+    }()
+
+    init() {
         super.init(frame: .zero)
         setupLayout()
     }
@@ -75,25 +87,28 @@ class MovieRatingView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupLayout() {
-        backgroundColor = UIColor(hex: "#A5E8B4")
+    func updateView(movie: MovieItem, isFavorite: Bool) {
+        favoriteButton.configuration?.image = isFavorite ? UIImage(named: "star_fill") : UIImage(named: "star")
+        titleLabel.text = movie.title
 
-        let backgroundImageView = getHeaderImageView()
-        let titleLabel = UILabel(text: movie.title, textColor: .white,
-                                 font: .preferredFont(forTextStyle: .largeTitle))
-        let subtitleLabel = UILabel(text: "You rated this", textColor: .white,
-                                    font: .preferredFont(forTextStyle: .body))
-
-        let posterImageView = RoundImageView(roundingCorners: [.topRight], borderWidth: 5)
-        posterImageView.contentMode = .scaleAspectFill
         if let imageURL = movie.imageURL {
+            posterImageView.contentMode = .scaleAspectFill
             posterImageView.loadImage(from: imageURL)
         }
 
+        if let imageURL = movie.backdropImageURL {
+            headerImageView.loadImage(from: imageURL)
+        }
+    }
+
+    private func setupLayout() {
+        backgroundColor = UIColor(hex: "#A5E8B4")
+
+        let subtitleLabel = UILabel(text: "You rated this", textColor: .white, font: .preferredFont(forTextStyle: .body))
         let rateButton = rateButton.setShadow()
         let viewFavsButton = viewFavsButton.setShadow()
 
-        addSubview(backgroundImageView)
+        addSubview(headerImageView)
         addSubview(backButton)
         addSubview(titleLabel)
         addSubview(subtitleLabel)
@@ -102,7 +117,7 @@ class MovieRatingView: UIView {
         addSubview(rateButton)
         addSubview(viewFavsButton)
 
-        backgroundImageView.snp.makeConstraints { make in
+        headerImageView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.bottom.equalTo(self.snp.centerY)
         }
@@ -145,21 +160,5 @@ class MovieRatingView: UIView {
             make.leading.trailing.equalToSuperview().inset(50)
             make.height.equalTo(56)
         }
-    }
-
-    private func getHeaderImageView() -> UIView {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
-        if let imageURL = movie.backdropImageURL {
-            imageView.loadImage(from: imageURL)
-        }
-
-        let maskView = UIView()
-        maskView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        maskView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        imageView.addSubview(maskView)
-
-        return imageView
     }
 }

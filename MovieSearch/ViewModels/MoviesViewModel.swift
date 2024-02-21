@@ -9,28 +9,12 @@ import Foundation
 import Combine
 
 class MoviesViewModel {
-    var searchMovie = CurrentValueSubject<String, Never>("")
-    private var genres: [Int: String] = [:]
-    @Published var movies: [MovieItem] = []
 
+    var searchMovie = CurrentValueSubject<String, Never>("")
+    @Published var movies: [MovieItem] = []
     private var cancellables = Set<AnyCancellable>()
 
-    init() {
-        Task {
-            do {
-                let resultResponse = try await TMDBService.shared.fetchMovieGenre()
-                resultResponse.genres.forEach { genre in
-                    genres[genre.id] = genre.name
-                }
-                subscribeMovies()
-            } catch {
-                // Error handling
-                print(error)
-            }
-        }
-    }
-
-    private func subscribeMovies() {
+    init(movieDataStore: MovieDataStore) {
         searchMovie
             .removeDuplicates()
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
@@ -59,8 +43,9 @@ class MoviesViewModel {
                                                  title: $0.title,
                                                  releaseYear: String($0.releaseDate.prefix(4)),
                                                  userScore: ($0.voteAverage * 10).formatted(.number.precision(.fractionLength(0))),
-                                                 genreList: $0.genreIds.compactMap { self.genres[$0] },
-                                                 overview: $0.overview)
+                                                 genreList: $0.genreIds.map { movieDataStore.genres[$0] ?? String($0) },
+                                                 overview: $0.overview,
+                                                 myRating: nil)
                             }
                             promise(.success(movieItem))
                         } catch {
@@ -74,5 +59,21 @@ class MoviesViewModel {
             .receive(on: RunLoop.main)
             .assign(to: \.movies, on: self)
             .store(in: &cancellables)
+
+        movieDataStore.$genres
+            .receive(on: RunLoop.main)
+            .sink { [weak self] genres in
+                guard let self = self else { return }
+                self.movies = self.movies.map { MovieItem(id: $0.id,
+                                                          backdropImageURL: $0.backdropImageURL,
+                                                          imageURL: $0.imageURL,
+                                                          title: $0.title,
+                                                          releaseYear: $0.releaseYear,
+                                                          userScore: $0.userScore,
+                                                          genreList: $0.genreList.compactMap { genres[Int($0)!] },
+                                                          overview: $0.overview,
+                                                          myRating: nil)
+                }
+            }.store(in: &cancellables)
     }
 }

@@ -10,6 +10,8 @@ import UIKit
 
 class FavoriteCell: UICollectionViewCell {
 
+    var buttonAction: (() -> Void)?
+
     static let identifier = "FavoriteCell"
 
     private var posterImageView: UIImageView = {
@@ -29,19 +31,22 @@ class FavoriteCell: UICollectionViewCell {
 
     private let scoreLabel = UILabel(textColor: .black, font: .systemFont(ofSize: 20), textAlignment: .center)
 
-    func configure(with movie: FavoriteItem) {
+    func configure(with movie: MovieItem) {
         setupInformation(with: movie)
         setupViews()
+        favoriteButton.addAction(UIAction { _ in
+            self.buttonAction?()
+        }, for: .touchUpInside)
     }
 
-    private func setupInformation(with movie: FavoriteItem) {
+    private func setupInformation(with movie: MovieItem) {
         if let imageURL = movie.imageURL {
             posterImageView.loadImage(from: imageURL)
         } else {
             posterImageView.image = nil
         }
 
-        scoreLabel.text = movie.score
+        scoreLabel.text = movie.myRating
     }
 
     private func setupViews() {

@@ -4,5 +4,7 @@
 <dict>
 	<key>TMDBAPIKey</key>
 	<string>API_KEY_HERE</string>
+    <key>TMDBAccountId</key>
+    <string>ACCOUNT_ID</string>
 </dict>
 </plist>
