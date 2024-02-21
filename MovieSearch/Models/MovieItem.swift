@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum MovieSection {
     case main
@@ -13,12 +14,13 @@ enum MovieSection {
 
 struct MovieItem: Hashable {
     let id: String
-    let backdropImageURL: String?
-    let imageURL: String?
+    var backdropImage: UIImage?
+    var image: UIImage?
     let title: String
     let releaseYear: String
     let userScore: String
     let genreList: [String]
+    let genreIds: [Int]
     let overview: String
     let myRating: String?
 }

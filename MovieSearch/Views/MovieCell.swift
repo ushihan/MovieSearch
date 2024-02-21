@@ -51,11 +51,19 @@ class MovieCell: UITableViewCell {
         return stackView
     }()
 
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - set up data
 
     func configure(with movie: MovieItem) {
         setupInformation(with: movie)
-        setupViews()
     }
 
     private func setupInformation(with movie: MovieItem) {
@@ -63,12 +71,12 @@ class MovieCell: UITableViewCell {
         releaseYearLabel.text = movie.releaseYear
         scoreLabel.text = movie.userScore + "%"
 
-        if let imageURL = movie.imageURL {
-            movieImageView.loadImage(from: imageURL)
-        } else {
-            movieImageView.image = nil
-        }
+        movieImageView.image = movie.image
 
+        genreContainer.arrangedSubviews.forEach {
+            genreContainer.removeArrangedSubview($0)
+            $0.removeFromSuperview()
+        }
         movie.genreList.forEach { genre in
             let label = UILabel(text: genre, textColor: UIColor(hex: "#959595"), font: .systemFont(ofSize: 12))
             let view = UIView()

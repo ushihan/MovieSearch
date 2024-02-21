@@ -7,13 +7,43 @@
 
 import Foundation
 import UIKit
+import Combine
+
+enum ImageError: Error {
+    case dataDecodingFailed
+}
 
 class ImageCacheManager {
 
     static let shared = ImageCacheManager()
-    let cache = NSCache<NSString, UIImage>()
+    private let cache = NSCache<NSString, UIImage>()
+    var cacheUpdatePublisher = PassthroughSubject<(id: String, image: UIImage), Never>()
 
     private init() {
-        cache.countLimit = 100
+        cache.totalCostLimit = 1024 * 1024 * 200 // 200MB
+    }
+
+    func loadImage(id: String, from urlString: String) -> UIImage? {
+        let cacheKey = NSString(string: urlString)
+
+        if let cachedImage = ImageCacheManager.shared.cache.object(forKey: cacheKey) {
+            return cachedImage
+        }
+
+        Task {
+            do {
+                let data = try await TMDBService.shared.fetchImage(path: urlString)
+                guard let image = UIImage(data: data) else {
+                    throw ImageError.dataDecodingFailed
+                }
+
+                self.cache.setObject(image, forKey: NSString(string: urlString))
+                self.cacheUpdatePublisher.send((id: id, image: image))
+            } catch {
+                // Error handling
+                print(error)
+            }
+        }
+        return nil
     }
 }

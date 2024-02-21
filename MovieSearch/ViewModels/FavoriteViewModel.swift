@@ -18,7 +18,6 @@ class FavoriteViewModel {
         self.movieDataStore = movieDataStore
 
         movieDataStore.$favoriteMovies
-            .receive(on: RunLoop.main)
             .sink { [weak self] movies in
                 self?.movies = movies
             }.store(in: &cancellables)

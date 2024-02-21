@@ -118,15 +118,9 @@ class MovieDetailView: UIView {
         favoriteButton.configuration?.image = isFavorite ? UIImage(named: "star_fill") : UIImage(named: "star")
         scoreProgressView.progress = (Float(movie.userScore) ?? 0) / 100
         overviewTextView.text = movie.overview
-
-        if let imageURL = movie.imageURL {
-            posterImageView.contentMode = .scaleAspectFill
-            posterImageView.loadImage(from: imageURL)
-        }
-
-        if let imageURL = movie.backdropImageURL {
-            headerImageView.loadImage(from: imageURL)
-        }
+        posterImageView.contentMode = .scaleAspectFill
+        posterImageView.image = movie.image
+        headerImageView.image = movie.backdropImage
 
         movie.genreList.forEach { genre in
             let label = UILabel(text: genre, textColor: UIColor(hex: "#959595"), font: .systemFont(ofSize: 12))

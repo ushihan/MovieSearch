@@ -31,21 +31,24 @@ class FavoriteCell: UICollectionViewCell {
 
     private let scoreLabel = UILabel(textColor: .black, font: .systemFont(ofSize: 20), textAlignment: .center)
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func configure(with movie: MovieItem) {
         setupInformation(with: movie)
-        setupViews()
         favoriteButton.addAction(UIAction { _ in
             self.buttonAction?()
         }, for: .touchUpInside)
     }
 
     private func setupInformation(with movie: MovieItem) {
-        if let imageURL = movie.imageURL {
-            posterImageView.loadImage(from: imageURL)
-        } else {
-            posterImageView.image = nil
-        }
-
+        posterImageView.image = movie.image
         scoreLabel.text = movie.myRating ?? "0"
     }
 

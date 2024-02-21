@@ -96,7 +96,14 @@ class TMDBService {
         return response
     }
 
-    func fetchImageFullUrl(path: String) -> String {
-        return getURL(path: "/t/p/original/" + path, isImage: true).absoluteString
+
+    func fetchImage(path: String) async throws -> Data {
+        let url = getURL(path: "/t/p/original/" + path, isImage: true)
+        let request = getURLRequest(url: url)
+        let (data, response) = try await session.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        return data
     }
 }

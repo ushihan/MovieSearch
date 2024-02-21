@@ -43,11 +43,11 @@ class MoviesViewController: UIViewController {
     }
 
     private func setupTableView() {
-        customView.tableView.register(MovieCell.self, forCellReuseIdentifier: "movieCell")
+        customView.tableView.register(MovieCell.self, forCellReuseIdentifier: MovieCell.identifier)
         customView.tableView.delegate = self
 
         dataSource = UITableViewDiffableDataSource<MovieSection, MovieItem>(tableView: customView.tableView) { (tableView, indexPath, item) -> UITableViewCell? in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell",
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.identifier,
                                                            for: indexPath) as? MovieCell else {
                 return UITableViewCell()
             }

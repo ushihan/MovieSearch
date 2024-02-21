@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import UIKit
 
 class MoviesViewModel {
 
@@ -15,6 +16,20 @@ class MoviesViewModel {
     private var cancellables = Set<AnyCancellable>()
 
     init(movieDataStore: MovieDataStore) {
+        ImageCacheManager.shared.cacheUpdatePublisher
+            .sink { update in
+                self.movies = self.movies.map({ movieItem in
+                    var movieItem = movieItem
+                    if update.id == "logo" + movieItem.id {
+                        movieItem.image = update.image
+                    } else if update.id == "backdrop" + movieItem.id {
+                        movieItem.backdropImage = update.image
+                    }
+                    return movieItem
+                })
+            }
+            .store(in: &cancellables)
+
         searchMovie
             .removeDuplicates()
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
@@ -29,21 +44,22 @@ class MoviesViewModel {
                                 moviesResponse = try await TMDBService.shared.searchMovies(keyword: searchText)
                             }
                             let movieItem = moviesResponse.results.map {
-                                var backdropImageURL: String? = nil
-                                var imageURL: String? = nil
-                                if let backdropPath = $0.backdropPath {
-                                    backdropImageURL = TMDBService.shared.fetchImageFullUrl(path: backdropPath)
-                                }
+                                var image: UIImage? = nil
+                                var backdropImage: UIImage? = nil
                                 if let posterPath = $0.posterPath {
-                                    imageURL = TMDBService.shared.fetchImageFullUrl(path: posterPath)
+                                    image = ImageCacheManager.shared.loadImage(id: "logo" + String($0.id), from: posterPath)
+                                }
+                                if let backdropPath = $0.backdropPath {
+                                    backdropImage = ImageCacheManager.shared.loadImage(id: "backdrop" + String($0.id), from: backdropPath)
                                 }
                                 return MovieItem(id: String($0.id),
-                                                 backdropImageURL: backdropImageURL,
-                                                 imageURL: imageURL,
+                                                 backdropImage: backdropImage,
+                                                 image: image,
                                                  title: $0.title,
                                                  releaseYear: String($0.releaseDate.prefix(4)),
                                                  userScore: ($0.voteAverage * 10).formatted(.number.precision(.fractionLength(0))),
-                                                 genreList: $0.genreIds.map { movieDataStore.genres[$0] ?? String($0) },
+                                                 genreList: $0.genreIds.compactMap { movieDataStore.genres[$0] },
+                                                 genreIds: $0.genreIds,
                                                  overview: $0.overview,
                                                  myRating: nil)
                             }
@@ -59,18 +75,18 @@ class MoviesViewModel {
             .receive(on: RunLoop.main)
             .assign(to: \.movies, on: self)
             .store(in: &cancellables)
-
         movieDataStore.$genres
-            .receive(on: RunLoop.main)
+            .removeDuplicates()
             .sink { [weak self] genres in
                 guard let self = self else { return }
                 self.movies = self.movies.map { MovieItem(id: $0.id,
-                                                          backdropImageURL: $0.backdropImageURL,
-                                                          imageURL: $0.imageURL,
+                                                          backdropImage: $0.backdropImage,
+                                                          image: $0.image,
                                                           title: $0.title,
                                                           releaseYear: $0.releaseYear,
                                                           userScore: $0.userScore,
-                                                          genreList: $0.genreList.compactMap { genres[Int($0)!] },
+                                                          genreList: $0.genreIds.compactMap { genres[$0] },
+                                                          genreIds: $0.genreIds,
                                                           overview: $0.overview,
                                                           myRating: nil)
                 }
