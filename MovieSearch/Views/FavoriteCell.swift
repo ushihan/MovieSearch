@@ -35,7 +35,12 @@ class FavoriteCell: UICollectionViewCell {
     }
 
     private func setupInformation(with movie: FavoriteItem) {
-        posterImageView.loadImage(from: movie.imageURL)
+        if let imageURL = movie.imageURL {
+            posterImageView.loadImage(from: imageURL)
+        } else {
+            posterImageView.image = nil
+        }
+
         scoreLabel.text = movie.score
     }
 

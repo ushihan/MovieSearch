@@ -29,6 +29,8 @@ class MoviesView: UIView {
         return textField
     }()
 
+    private let titleLabel = UILabel(text: "Popular Right now", textColor: UIColor(hex: "#347868"), font: .preferredFont(forTextStyle: .largeTitle))
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
@@ -58,8 +60,6 @@ class MoviesView: UIView {
     }
 
     private func getHeaderView() -> UIView {
-        let titleLabel = UILabel(text: "Popular Right now", textColor: UIColor(hex: "#347868"), font: .preferredFont(forTextStyle: .largeTitle))
-
         let headerView = UIView()
         headerView.addSubview(searchTextField)
         headerView.addSubview(titleLabel)
@@ -76,5 +76,9 @@ class MoviesView: UIView {
         }
 
         return headerView
+    }
+
+    func setTitle(text: String) {
+        titleLabel.text = text
     }
 }

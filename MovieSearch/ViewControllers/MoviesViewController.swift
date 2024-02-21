@@ -14,6 +14,7 @@ class MoviesViewController: UIViewController {
     weak var coordinator: AppCoordinator?
     private let viewModel: MoviesViewModel
     private var cancellables = Set<AnyCancellable>()
+    private var dataSource: UITableViewDiffableDataSource<MoviewSection, MovieItem>!
 
     private var customView: MoviesView {
         guard let view = view as? MoviesView else {
@@ -21,8 +22,6 @@ class MoviesViewController: UIViewController {
         }
         return view
     }
-
-    private var dataSource: UITableViewDiffableDataSource<MoviewSection, MovieItem>!
 
     init(viewModel: MoviesViewModel) {
         self.viewModel = viewModel
@@ -84,6 +83,12 @@ extension MoviesViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let searchText = textField.text {
             viewModel.searchMovie.send(searchText)
+
+            if searchText.isEmpty {
+                customView.setTitle(text: "Popular Right now")
+            } else {
+                customView.setTitle(text: "Your Results")
+            }
         }
         textField.resignFirstResponder()
         return true

@@ -8,6 +8,7 @@
 import Foundation
 
 class TMDBService {
+    
     static let shared = TMDBService()
     private static let apiHost = "api.themoviedb.org"
     private static let imageHost = "image.tmdb.org"
@@ -65,6 +66,15 @@ class TMDBService {
         let (data, _) = try await session.data(for: request)
         let movieResponse = try JSONDecoder().decode(MoviesResponse.self, from: data)
         return movieResponse
+    }
+
+    func getMyFavorite(page: Int = 1) async throws -> MoviesResponse {
+        let url = getURL(path: "/3/account/21015369/favorite/movies", queryParameters: ["page": String(page)])
+        let request = getURLRequest(url: url)
+
+        let (data, _) = try await session.data(for: request)
+        let response = try JSONDecoder().decode(MoviesResponse.self, from: data)
+        return response
     }
 
     func fetchImageFullUrl(path: String) -> String {

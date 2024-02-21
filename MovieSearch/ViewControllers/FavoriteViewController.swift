@@ -11,7 +11,6 @@ import UIKit
 class FavoriteViewController: UIViewController {
 
     weak var coordinator: AppCoordinator?
-
     private var dataSource: UICollectionViewDiffableDataSource<FavoriteSection, FavoriteItem>!
 
     private var customView: FavoriteView {
@@ -44,16 +43,7 @@ class FavoriteViewController: UIViewController {
 
         var snapshot = NSDiffableDataSourceSnapshot<FavoriteSection, FavoriteItem>()
         snapshot.appendSections([.main])
-        snapshot.appendItems([FavoriteItem(id: "000", 
-                                           imageURL: "https://image.tmdb.org/t/p/w500/pWsD91G2R1Da3AKM3ymr3UoIfRb.jpg", score: "100"),
-                              FavoriteItem(id: "111",
-                                           imageURL: "https://image.tmdb.org/t/p/w500/pWsD91G2R1Da3AKM3ymr3UoIfRb.jpg", score: "32"),
-                              FavoriteItem(id: "222",
-                                           imageURL: "https://image.tmdb.org/t/p/w500/pWsD91G2R1Da3AKM3ymr3UoIfRb.jpg", score: "99"),
-                              FavoriteItem(id: "333",
-                                           imageURL: "https://image.tmdb.org/t/p/w500/pWsD91G2R1Da3AKM3ymr3UoIfRb.jpg", score: "40"),
-                              FavoriteItem(id: "555",
-                                           imageURL: "https://image.tmdb.org/t/p/w500/pWsD91G2R1Da3AKM3ymr3UoIfRb.jpg", score: "0")])
+        snapshot.appendItems(FavoriteCache.shared.get())
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 

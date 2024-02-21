@@ -11,6 +11,8 @@ import UIKit
 class MovieDetailViewController: UIViewController {
 
     weak var coordinator: AppCoordinator?
+    private let viewModel: MovieDetailViewModel
+    private var movie: MovieItem
 
     private var customView: MovieDetailView {
         guard let view = view as? MovieDetailView else {
@@ -19,14 +21,13 @@ class MovieDetailViewController: UIViewController {
         return view
     }
 
-    private var movie: MovieItem
-
     override func loadView() {
         view = MovieDetailView(with: movie)
     }
 
-    init(with movie: MovieItem) {
+    init(with movie: MovieItem, viewModel: MovieDetailViewModel) {
         self.movie = movie
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 

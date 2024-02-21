@@ -13,6 +13,6 @@ enum FavoriteSection {
 
 struct FavoriteItem: Hashable {
     let id: String
-    let imageURL: String
+    let imageURL: String?
     let score: String
 }
