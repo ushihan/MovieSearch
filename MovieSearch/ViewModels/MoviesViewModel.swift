@@ -14,19 +14,24 @@ class MoviesViewModel {
     var searchMovie = CurrentValueSubject<String, Never>("")
     @Published var movies: [MovieItem] = []
     private var cancellables = Set<AnyCancellable>()
+    private var moviesIndex: [String: Int] = [:]
 
     init(movieDataStore: MovieDataStore) {
         ImageCacheManager.shared.cacheUpdatePublisher
             .sink { update in
-                self.movies = self.movies.map({ movieItem in
-                    var movieItem = movieItem
-                    if update.id == "logo" + movieItem.id {
-                        movieItem.image = update.image
-                    } else if update.id == "backdrop" + movieItem.id {
-                        movieItem.backdropImage = update.image
+                if let imageType = MovieImageType.from(id: update.id) {
+                    let movieID = String(update.id.dropFirst(imageType.rawValue.count))
+                    if let index = self.moviesIndex[movieID] {
+                        var movieItem = self.movies[index]
+                        switch imageType {
+                        case .logo:
+                            movieItem.image = update.image
+                        case .backdrop:
+                            movieItem.backdropImage = update.image
+                        }
+                        self.movies[index] = movieItem
                     }
-                    return movieItem
-                })
+                }
             }
             .store(in: &cancellables)
 
@@ -43,7 +48,7 @@ class MoviesViewModel {
                             } else {
                                 moviesResponse = try await TMDBService.shared.searchMovies(keyword: searchText)
                             }
-                            let movieItem = moviesResponse.results.map {
+                            let movieItems = moviesResponse.results.map {
                                 var image: UIImage? = nil
                                 var backdropImage: UIImage? = nil
                                 if let posterPath = $0.posterPath {
@@ -63,7 +68,8 @@ class MoviesViewModel {
                                                  overview: $0.overview,
                                                  myRating: nil)
                             }
-                            promise(.success(movieItem))
+                            self.updateMoviesIndex(movieItems: movieItems)
+                            promise(.success(movieItems))
                         } catch {
                             // Error handling
                             print(error)
@@ -91,5 +97,12 @@ class MoviesViewModel {
                                                           myRating: nil)
                 }
             }.store(in: &cancellables)
+    }
+
+    private func updateMoviesIndex(movieItems: [MovieItem]) {
+        moviesIndex = [:]
+        for (index, movie) in movieItems.enumerated() {
+            moviesIndex[movie.id] = index
+        }
     }
 }

@@ -14,26 +14,31 @@ class MovieDataStore {
     @Published var favoriteMovies: [MovieItem] = []
     @Published var genres: [Int: String] = [:]
     private var cancellables = Set<AnyCancellable>()
+    private var moviesIndex: [String: Int] = [:]
 
     init() {
         ImageCacheManager.shared.cacheUpdatePublisher
             .sink { update in
-                self.favoriteMovies = self.favoriteMovies.map({ movieItem in
-                    var movieItem = movieItem
-                    if update.id == "logo" + movieItem.id {
-                        movieItem.image = update.image
-                    } else if update.id == "backdrop" + movieItem.id {
-                        movieItem.backdropImage = update.image
+                if let imageType = MovieImageType.from(id: update.id) {
+                    let movieID = String(update.id.dropFirst(imageType.rawValue.count))
+                    if let index = self.moviesIndex[movieID] {
+                        var movieItem = self.favoriteMovies[index]
+                        switch imageType {
+                        case .logo:
+                            movieItem.image = update.image
+                        case .backdrop:
+                            movieItem.backdropImage = update.image
+                        }
+                        self.favoriteMovies[index] = movieItem
                     }
-                    return movieItem
-                })
+                }
             }
             .store(in: &cancellables)
 
         Task {
             do {
                 let moviesResponse = try await TMDBService.shared.fetchMyFavorite()
-                let movieItem = moviesResponse.results.map {
+                let movieItems = moviesResponse.results.map {
                     var image: UIImage? = nil
                     var backdropImage: UIImage? = nil
                     if let posterPath = $0.posterPath {
@@ -53,7 +58,8 @@ class MovieDataStore {
                                      overview: $0.overview,
                                      myRating: nil)
                 }
-                favoriteMovies = movieItem
+                favoriteMovies = movieItems
+                self.updateMoviesIndex(movieItems: movieItems)
             } catch {
                 // Error handling
                 print(error)
@@ -98,6 +104,13 @@ class MovieDataStore {
                 // Error handling
                 print(error)
             }
+        }
+    }
+
+    private func updateMoviesIndex(movieItems: [MovieItem]) {
+        moviesIndex = [:]
+        for (index, movie) in movieItems.enumerated() {
+            moviesIndex[movie.id] = index
         }
     }
 }

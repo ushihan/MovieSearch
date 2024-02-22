@@ -13,6 +13,20 @@ enum ImageError: Error {
     case dataDecodingFailed
 }
 
+enum MovieImageType: String {
+    case logo = "logo"
+    case backdrop = "backdrop"
+
+    static func from(id: String) -> MovieImageType? {
+        for type in [MovieImageType.logo, MovieImageType.backdrop] {
+            if id.hasPrefix(type.rawValue) {
+                return type
+            }
+        }
+        return nil
+    }
+}
+
 class ImageCacheManager {
 
     static let shared = ImageCacheManager()
