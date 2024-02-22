@@ -29,7 +29,7 @@ class FavoriteCell: UICollectionViewCell {
         return button
     }()
 
-    private let scoreLabel = UILabel(textColor: .black, font: .systemFont(ofSize: 20), textAlignment: .center)
+    private let scoreLabel = UILabel(textColor: .black, font: .setToInterReular(isBold: false, size: 20), textAlignment: .center)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,7 +53,7 @@ class FavoriteCell: UICollectionViewCell {
     }
 
     private func setupViews() {
-        let titleLabel = UILabel(text: "My Rating", textColor: .black, font: .systemFont(ofSize: 16), textAlignment: .center)
+        let titleLabel = UILabel(text: "My Rating", textColor: .black, font: .setToInterReular(isBold: false, size: 16), textAlignment: .center)
         let favoriteButton = favoriteButton.setShadow()
 
         addSubview(posterImageView)

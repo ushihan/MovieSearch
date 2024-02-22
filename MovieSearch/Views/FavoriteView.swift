@@ -18,7 +18,7 @@ class FavoriteView: UIView {
         config.background.backgroundColor = .white.withAlphaComponent(0.3)
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.black,
-            .font: UIFont.systemFont(ofSize: 10)
+            .font: UIFont.setToInterReular(isBold: false, size: 10)
         ]
         config.attributedTitle = AttributedString("Back", attributes: AttributeContainer(attributes))
         config.imagePadding = 10
@@ -45,7 +45,7 @@ class FavoriteView: UIView {
         config.background.backgroundColor = UIColor(hex: "#EFEFEF")
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.black,
-            .font: UIFont.systemFont(ofSize: 16)
+            .font: UIFont.setToInterReular(isBold: false, size: 16)
         ]
         config.attributedTitle = AttributedString("Search for More", attributes: AttributeContainer(attributes))
         button.configuration = config
@@ -69,7 +69,9 @@ class FavoriteView: UIView {
         topView.backgroundColor = UIColor(hex: "#8EEAA2")
 
         let titleLabel = UILabel(text: "My favourites", textColor: UIColor(hex: "#347868"),
-                                 font: .preferredFont(forTextStyle: .largeTitle))
+                                 font: .setToJomhuria(size: 96))
+        titleLabel.adjustsFontSizeToFitWidth = true
+
         let searchButton = searchButton.setShadow()
 
         addSubview(topView)

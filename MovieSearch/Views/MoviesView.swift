@@ -20,7 +20,7 @@ class MoviesView: UIView {
     let searchTextField: PaddedTextField = {
         let textField = PaddedTextField(textInsets: UIEdgeInsets(top: 12, left: 27, bottom: 12, right: 27))
         textField.placeholder = "Search"
-        textField.font = .systemFont(ofSize: 16, weight: .bold)
+        textField.font = .setToInterReular(isBold: true, size: 16)
         textField.backgroundColor = .white
         textField.textColor = .black
         textField.borderStyle = .none
@@ -29,7 +29,11 @@ class MoviesView: UIView {
         return textField
     }()
 
-    private let titleLabel = UILabel(text: "Popular Right now", textColor: UIColor(hex: "#347868"), font: .preferredFont(forTextStyle: .largeTitle))
+    private var titleLabel: UILabel = {
+        let label = UILabel(text: "Popular Right now", textColor: UIColor(hex: "#347868"), font: .setToJomhuria(size: 60))
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)

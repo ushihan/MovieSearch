@@ -21,7 +21,7 @@ class MovieRatingView: UIView {
         config.background.backgroundColor = .white.withAlphaComponent(0.3)
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.white,
-            .font: UIFont.systemFont(ofSize: 10)
+            .font: UIFont.setToInterReular(isBold: false, size: 10)
         ]
         config.attributedTitle = AttributedString("Back to Search", attributes: AttributeContainer(attributes))
         config.imagePadding = 10
@@ -41,10 +41,10 @@ class MovieRatingView: UIView {
 
     let rateButton: UIButton = {
         let buttonStyleModel = TwoPartStyleModel(topColor: UIColor(hex: "#AB803F"), topText: "Rate it myself >",
-                                                 topTextColor: .white, topFont: .systemFont(ofSize: 16),
+                                                 topTextColor: .white, topFont: .setToInterReular(isBold: false, size: 16),
                                                  bottomColor: .black, bottomText: "add personal rating",
                                                  bottomTextColor: UIColor(hex: "#D7BA8E"),
-                                                 bottomFont: .systemFont(ofSize: 12))
+                                                 bottomFont: .setToInterReular(isBold: false, size: 12))
         return TwoPartButton(style: buttonStyleModel)
     }()
 
@@ -54,7 +54,7 @@ class MovieRatingView: UIView {
         config.background.backgroundColor = .white
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.black,
-            .font: UIFont.systemFont(ofSize: 16)
+            .font: UIFont.setToInterReular(isBold: false, size: 16)
         ]
         config.attributedTitle = AttributedString("Go to favourites", attributes: AttributeContainer(attributes))
         button.configuration = config
@@ -62,8 +62,13 @@ class MovieRatingView: UIView {
         return button
     }()
 
-    private let titleLabel = UILabel(textColor: .white, font: .preferredFont(forTextStyle: .largeTitle))
     private let posterImageView = RoundImageView(roundingCorners: [.topRight], borderWidth: 5)
+
+    private var titleLabel: UILabel = {
+        let label = UILabel(textColor: .white, font: .setToJomhuria(size: 96))
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
 
     private var headerImageView: UIImageView = {
         let imageView = UIImageView()
@@ -98,7 +103,7 @@ class MovieRatingView: UIView {
     private func setupLayout() {
         backgroundColor = UIColor(hex: "#A5E8B4")
 
-        let subtitleLabel = UILabel(text: "You rated this", textColor: .white, font: .preferredFont(forTextStyle: .body))
+        let subtitleLabel = UILabel(text: "You rated this", textColor: .white, font: .setToJomhuria(size: 30))
         let rateButton = rateButton.setShadow()
         let viewFavsButton = viewFavsButton.setShadow()
 
@@ -128,7 +133,7 @@ class MovieRatingView: UIView {
 
         subtitleLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(32)
-            make.top.equalTo(titleLabel.snp.bottom).offset(15)
+            make.top.equalTo(titleLabel.snp.bottom).offset(-15)
         }
 
         posterImageView.snp.makeConstraints { make in

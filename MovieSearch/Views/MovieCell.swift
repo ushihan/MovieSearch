@@ -22,12 +22,18 @@ class MovieCell: UITableViewCell {
         return imageView
     }()
 
-    private let titleLabel = UILabel(textColor: .black, font: .systemFont(ofSize: 16, weight: .bold))
-    private let releaseYearLabel = UILabel(textColor: UIColor(hex: "#959595"), font: .systemFont(ofSize: 12))
-    private let scoreLabel = UILabel(textColor: .black, font: .systemFont(ofSize: 12, weight: .bold))
+    private let releaseYearLabel = UILabel(textColor: UIColor(hex: "#959595"), font: .setToInterReular(isBold: false, size: 12))
+    private let scoreLabel = UILabel(textColor: .black, font: .setToInterReular(isBold: true, size: 12))
+
+    private var titleLabel: UILabel = {
+        let label = UILabel(textColor: .black, font: .setToInterReular(isBold: true, size: 16))
+        label.numberOfLines = 3
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
 
     private lazy var scoreContainer: UIView = {
-        let userScoreLabel = UILabel(text: "user score", textColor: .black, font: .systemFont(ofSize: 12))
+        let userScoreLabel = UILabel(text: "user score", textColor: .black, font: .setToInterReular(isBold: false, size: 12))
         let view = UIView()
         view.addSubview(scoreLabel)
         view.addSubview(userScoreLabel)
@@ -78,7 +84,7 @@ class MovieCell: UITableViewCell {
             $0.removeFromSuperview()
         }
         movie.genreList.forEach { genre in
-            let label = UILabel(text: genre, textColor: UIColor(hex: "#959595"), font: .systemFont(ofSize: 12))
+            let label = UILabel(text: genre, textColor: UIColor(hex: "#959595"), font: .setToInterReular(isBold: false, size: 12))
             let view = UIView()
             view.backgroundColor = UIColor(hex: "#E6E6E6")
             view.addSubview(label)
