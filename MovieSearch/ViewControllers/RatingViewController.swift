@@ -31,10 +31,11 @@ class RatingViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         viewModel.$isFavorite
+            .combineLatest(viewModel.$movie)
             .receive(on: RunLoop.main)
-            .sink { [weak self] isFavorite in
+            .sink { [weak self] isFavorite, movie in
                 guard let self = self else { return }
-                self.customView.updateView(movie: self.viewModel.movie, isFavorite: isFavorite)
+                self.customView.updateView(movie: movie, isFavorite: isFavorite)
             }
             .store(in: &cancellables)
     }

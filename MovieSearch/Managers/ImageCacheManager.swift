@@ -14,13 +14,22 @@ enum ImageError: Error {
 }
 
 enum MovieImageType: String {
-    case logo = "logo"
+    case poster = "poster"
     case backdrop = "backdrop"
 
     static func from(id: String) -> MovieImageType? {
-        for type in [MovieImageType.logo, MovieImageType.backdrop] {
+        for type in [MovieImageType.poster, MovieImageType.backdrop] {
             if id.hasPrefix(type.rawValue) {
                 return type
+            }
+        }
+        return nil
+    }
+
+    static func getOriginalId(id: String) -> String? {
+        for type in [MovieImageType.poster, MovieImageType.backdrop] {
+            if id.hasPrefix(type.rawValue) {
+                return id.replacingOccurrences(of: type.rawValue, with: "")
             }
         }
         return nil

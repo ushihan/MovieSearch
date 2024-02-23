@@ -24,7 +24,7 @@ class MovieDataStore {
                     if let index = self.moviesIndex[movieID] {
                         var movieItem = self.favoriteMovies[index]
                         switch imageType {
-                        case .logo:
+                        case .poster:
                             movieItem.image = update.image
                         case .backdrop:
                             movieItem.backdropImage = update.image
@@ -42,7 +42,7 @@ class MovieDataStore {
                     var image: UIImage? = nil
                     var backdropImage: UIImage? = nil
                     if let posterPath = $0.posterPath {
-                        image = ImageCacheManager.shared.loadImage(id: "logo" + String($0.id), from: posterPath)
+                        image = ImageCacheManager.shared.loadImage(id: "poster" + String($0.id), from: posterPath)
                     }
                     if let backdropPath = $0.backdropPath {
                         backdropImage = ImageCacheManager.shared.loadImage(id: "backdrop" + String($0.id), from: backdropPath)

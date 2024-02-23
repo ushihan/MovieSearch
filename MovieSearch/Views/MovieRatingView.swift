@@ -62,7 +62,12 @@ class MovieRatingView: UIView {
         return button
     }()
 
-    private let posterImageView = RoundImageView(roundingCorners: [.topRight], borderWidth: 5)
+    private let posterImageView: UIImageView = {
+        let imageView = RoundImageView(roundingCorners: [.topRight], borderWidth: 5)
+        imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = .white
+        return imageView
+    }()
 
     private var titleLabel: UILabel = {
         let label = UILabel(textColor: .white, font: .setToJomhuria(size: 96))
@@ -95,7 +100,6 @@ class MovieRatingView: UIView {
     func updateView(movie: MovieItem, isFavorite: Bool) {
         favoriteButton.configuration?.image = isFavorite ? UIImage(named: "star_fill") : UIImage(named: "star")
         titleLabel.text = movie.title
-        posterImageView.contentMode = .scaleAspectFill
         posterImageView.image = movie.image
         headerImageView.image = movie.backdropImage
     }

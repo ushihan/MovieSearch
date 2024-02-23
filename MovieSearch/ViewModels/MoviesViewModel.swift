@@ -24,7 +24,7 @@ class MoviesViewModel {
                     if let index = self.moviesIndex[movieID] {
                         var movieItem = self.movies[index]
                         switch imageType {
-                        case .logo:
+                        case .poster:
                             movieItem.image = update.image
                         case .backdrop:
                             movieItem.backdropImage = update.image
@@ -52,7 +52,7 @@ class MoviesViewModel {
                                 var image: UIImage? = nil
                                 var backdropImage: UIImage? = nil
                                 if let posterPath = $0.posterPath {
-                                    image = ImageCacheManager.shared.loadImage(id: "logo" + String($0.id), from: posterPath)
+                                    image = ImageCacheManager.shared.loadImage(id: "poster" + String($0.id), from: posterPath)
                                 }
                                 if let backdropPath = $0.backdropPath {
                                     backdropImage = ImageCacheManager.shared.loadImage(id: "backdrop" + String($0.id), from: backdropPath)
@@ -81,6 +81,7 @@ class MoviesViewModel {
             .receive(on: RunLoop.main)
             .assign(to: \.movies, on: self)
             .store(in: &cancellables)
+
         movieDataStore.$genres
             .removeDuplicates()
             .sink { [weak self] genres in

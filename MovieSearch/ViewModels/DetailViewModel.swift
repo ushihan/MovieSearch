@@ -10,7 +10,7 @@ import Combine
 
 class DetailViewModel {
 
-    var movie: MovieItem
+    @Published var movie: MovieItem
     @Published var isFavorite: Bool = false
     private var cancellables = Set<AnyCancellable>()
     private let movieDataStore: MovieDataStore
@@ -18,6 +18,22 @@ class DetailViewModel {
     init(with movie: MovieItem, movieDataStore: MovieDataStore) {
         self.movie = movie
         self.movieDataStore = movieDataStore
+
+        ImageCacheManager.shared.cacheUpdatePublisher
+            .sink { update in
+                guard MovieImageType.getOriginalId(id: update.id) == self.movie.id else { return }
+                if let imageType = MovieImageType.from(id: update.id) {
+                    var movieItem = self.movie
+                    switch imageType {
+                    case .poster:
+                        movieItem.image = update.image
+                    case .backdrop:
+                        movieItem.backdropImage = update.image
+                    }
+                    self.movie = movieItem
+                }
+            }
+            .store(in: &cancellables)
 
         movieDataStore.$favoriteMovies
             .receive(on: RunLoop.main)
