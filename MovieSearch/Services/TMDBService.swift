@@ -96,6 +96,33 @@ class TMDBService {
         return response
     }
 
+    func fetchRatedMovies(page: Int = 1) async throws -> MoviesResponse {
+        let url = getURL(path: "/3/account/" + TMDBService.accountId  + "/rated/movies", queryParameters: ["page": String(page)])
+        let request = getURLRequest(url: url)
+
+        let (data, _) = try await session.data(for: request)
+        let response = try JSONDecoder().decode(MoviesResponse.self, from: data)
+        return response
+    }
+
+    func addRating(movieId: String, score: Float) async throws -> MessageResponse {
+        let url = getURL(path: "/3/movie/" + movieId  + "/rating")
+        let parameters = ["value": score] as [String : Any]
+        let request = getURLRequest(url: url, method: "POST", postData: parameters)
+
+        let (data, _) = try await session.data(for: request)
+        let response = try JSONDecoder().decode(MessageResponse.self, from: data)
+        return response
+    }
+
+    func resetRating(movieId: String) async throws -> MessageResponse {
+        let url = getURL(path: "/3/movie/" + movieId  + "/rating")
+        let request = getURLRequest(url: url, method: "DELETE")
+
+        let (data, _) = try await session.data(for: request)
+        let response = try JSONDecoder().decode(MessageResponse.self, from: data)
+        return response
+    }
 
     func fetchImage(path: String) async throws -> Data {
         let url = getURL(path: "/t/p/original/" + path, isImage: true)

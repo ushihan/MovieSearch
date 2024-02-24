@@ -66,7 +66,7 @@ class MoviesViewModel {
                                                  genreList: $0.genreIds.compactMap { movieDataStore.genres[$0] },
                                                  genreIds: $0.genreIds,
                                                  overview: $0.overview,
-                                                 myRating: nil)
+                                                 myRating: movieDataStore.ratedMovies[String($0.id)])
                             }
                             self.updateMoviesIndex(movieItems: movieItems)
                             promise(.success(movieItems))

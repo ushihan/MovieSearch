@@ -12,6 +12,7 @@ import Combine
 class MovieDataStore {
     
     @Published var favoriteMovies: [MovieItem] = []
+    @Published var ratedMovies: [String: Float] = [:]
     @Published var genres: [Int: String] = [:]
     private var cancellables = Set<AnyCancellable>()
     private var moviesIndex: [String: Int] = [:]
@@ -56,7 +57,7 @@ class MovieDataStore {
                                      genreList: $0.genreIds.compactMap { self.genres[$0] },
                                      genreIds: $0.genreIds,
                                      overview: $0.overview,
-                                     myRating: nil)
+                                     myRating: self.ratedMovies[String($0.id)])
                 }
                 favoriteMovies = movieItems
                 self.updateMoviesIndex(movieItems: movieItems)
@@ -77,9 +78,24 @@ class MovieDataStore {
                 print(error)
             }
         }
+
+        Task {
+            do {
+                let moviesResponse = try await TMDBService.shared.fetchRatedMovies()
+                let movieItems = moviesResponse.results.reduce(into: [String: Float]()) { (dict, movie) in
+                    if let rating = movie.rating {
+                        dict[String(movie.id)] = rating
+                    }
+                }
+                ratedMovies = movieItems
+            } catch {
+                // Error handling
+                print(error)
+            }
+        }
     }
     
-    func add(movie: MovieItem) {
+    func addToFavorite(movie: MovieItem) {
         Task {
             do {
                 let response = try await TMDBService.shared.setFavorite(movieId: movie.id, favorite: true)
@@ -93,12 +109,43 @@ class MovieDataStore {
         }
     }
     
-    func remove(movie: MovieItem) {
+    func removeFromFavorite(movie: MovieItem) {
         Task {
             do {
                 let response = try await TMDBService.shared.setFavorite(movieId: movie.id, favorite: false)
                 if response.code == MessageCode.remove.rawValue {
                     favoriteMovies.removeAll { $0.id == movie.id }
+                }
+            } catch {
+                // Error handling
+                print(error)
+            }
+        }
+    }
+
+    func rate(movieId: String, score: Float, errorHandle: @escaping ((String) -> Void), completion: (() -> Void)?) {
+        Task {
+            do {
+                let response = try await TMDBService.shared.addRating(movieId: movieId, score: score)
+                if response.code == MessageCode.add.rawValue || response.code == MessageCode.updated.rawValue {
+                    ratedMovies[movieId] = score
+                    completion?()
+                } else {
+                    errorHandle(response.message)
+                }
+            } catch {
+                // Error handling
+                print(error)
+            }
+        }
+    }
+
+    func resetRating(movieId: String) {
+        Task {
+            do {
+                let response = try await TMDBService.shared.resetRating(movieId: movieId)
+                if response.code == MessageCode.remove.rawValue {
+                    ratedMovies.removeValue(forKey: movieId)
                 }
             } catch {
                 // Error handling

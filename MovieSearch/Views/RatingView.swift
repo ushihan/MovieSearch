@@ -1,5 +1,5 @@
 //
-//  MovieRatingView.swift
+//  RatingView.swift
 //  MovieSearch
 //
 //  Created by Shih-Han Hsu on 20/2/2024.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class MovieRatingView: UIView {
+class RatingView: UIView {
 
     let backButton: UIButton = {
         let button = RoundButton()
@@ -39,14 +39,7 @@ class MovieRatingView: UIView {
         return button
     }()
 
-    let rateButton: UIButton = {
-        let buttonStyleModel = TwoPartStyleModel(topColor: UIColor(hex: "#AB803F"), topText: "Rate it myself >",
-                                                 topTextColor: .white, topFont: .setToInterReular(isBold: false, size: 16),
-                                                 bottomColor: .black, bottomText: "add personal rating",
-                                                 bottomTextColor: UIColor(hex: "#D7BA8E"),
-                                                 bottomFont: .setToInterReular(isBold: false, size: 12))
-        return TwoPartButton(style: buttonStyleModel)
-    }()
+    let rateButton: RatingButton = RatingButton()
 
     let viewFavsButton: UIButton = {
         let button = RoundButton()
@@ -102,6 +95,7 @@ class MovieRatingView: UIView {
         titleLabel.text = movie.title
         posterImageView.image = movie.image
         headerImageView.image = movie.backdropImage
+        rateButton.updateLayout(score: movie.myRating)
     }
 
     private func setupLayout() {

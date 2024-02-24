@@ -1,5 +1,5 @@
 //
-//  MovieDetailView.swift
+//  DetailView.swift
 //  MovieSearch
 //
 //  Created by Shih-Han Hsu on 19/2/2024.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class MovieDetailView: UIView {
+class DetailView: UIView {
 
     let backButton: UIButton = {
         var config = UIButton.Configuration.filled()
@@ -38,15 +38,6 @@ class MovieDetailView: UIView {
         return button
     }()
 
-    let rateButton: UIButton = {
-        let buttonStyleModel = TwoPartStyleModel(topColor: UIColor(hex: "#AB803F"), topText: "Rate it myself >",
-                                                 topTextColor: .white, topFont: .setToInterReular(isBold: false, size: 16),
-                                                 bottomColor: .black, bottomText: "add personal rating",
-                                                 bottomTextColor: UIColor(hex: "#D7BA8E"),
-                                                 bottomFont: .setToInterReular(isBold: false, size: 12))
-        return TwoPartButton(style: buttonStyleModel)
-    }()
-
     let viewFavsButton: UIButton = {
         let button = RoundButton()
         var config = UIButton.Configuration.filled()
@@ -61,6 +52,7 @@ class MovieDetailView: UIView {
         return button
     }()
 
+    let rateButton: RatingButton = RatingButton()
     private let releaseLabel = UILabel(textColor: UIColor(hex: "#959595"), font: .setToInterReular(isBold: false, size: 12))
     private let scoreLabel = UILabel()
 
@@ -132,6 +124,7 @@ class MovieDetailView: UIView {
         headerLabel.text = movie.title
         titleLabel.text = movie.title
         releaseLabel.text = movie.releaseYear
+        rateButton.updateLayout(score: movie.myRating)
         favoriteButton.configuration?.image = isFavorite ? UIImage(named: "star_fill") : UIImage(named: "star")
         scoreProgressView.progress = (Float(movie.userScore) ?? 0) / 100
         overviewTextView.text = movie.overview

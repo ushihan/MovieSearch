@@ -15,15 +15,15 @@ class RatingViewController: UIViewController {
     private let viewModel: RatingViewModel
     private var cancellables = Set<AnyCancellable>()
 
-    private var customView: MovieRatingView {
-        guard let view = view as? MovieRatingView else {
+    private var customView: RatingView {
+        guard let view = view as? RatingView else {
             fatalError("view should be MovieRatingView")
         }
         return view
     }
 
     override func loadView() {
-        view = MovieRatingView()
+        view = RatingView()
     }
 
     init(viewModel: RatingViewModel) {
@@ -51,7 +51,7 @@ class RatingViewController: UIViewController {
 
     private func setupAction() {
         customView.backButton.addAction(UIAction { [weak self] _ in
-            self?.dismiss(animated: true)
+            self?.coordinator?.navigateToSearch()
         }, for: .touchUpInside)
 
         customView.viewFavsButton.addAction(UIAction { [weak self] _ in
@@ -62,5 +62,38 @@ class RatingViewController: UIViewController {
             guard let viewModel = self?.viewModel else { return }
             viewModel.setFavorite(movie: viewModel.movie, favorite: !viewModel.isFavorite)
         }, for: .touchUpInside)
+
+        customView.rateButton.addAction(UIAction { [weak self] _ in
+            if self?.viewModel.movie.myRating == nil {
+                self?.showInputAlert()
+            } else {
+                self?.viewModel.resetRating()
+            }
+        }, for: .touchUpInside)
+    }
+
+    private func showInputAlert() {
+        let alertController = UIAlertController(title: "Your Rating", message: nil, preferredStyle: .alert)
+
+        alertController.addTextField { textField in
+            textField.placeholder = "Enter your rating 0 ~ 10"
+            textField.keyboardType = .decimalPad
+        }
+
+        let submitAction = UIAlertAction(title: "Submit", style: .default) { [weak alertController] _ in
+            guard let text = alertController?.textFields?.first?.text, let score = Float(text), score <= 10, score >= 0 else {
+                self.showErrorAlert(message: "Please enter a valid number")
+                return
+            }
+
+            self.viewModel.setRating(score: score, errorHandle: self.showErrorAlert)
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        alertController.addAction(submitAction)
+        alertController.addAction(cancelAction)
+
+        present(alertController, animated: true)
     }
 }

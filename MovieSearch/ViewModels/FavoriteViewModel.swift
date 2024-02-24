@@ -18,16 +18,21 @@ class FavoriteViewModel {
         self.movieDataStore = movieDataStore
 
         movieDataStore.$favoriteMovies
-            .sink { [weak self] movies in
-                self?.movies = movies
+            .combineLatest(movieDataStore.$ratedMovies)
+            .sink { [weak self] movies, ratedMovies in
+                self?.movies = movies.map {
+                    var movie = $0
+                    movie.myRating = ratedMovies[$0.id]
+                    return movie
+                }
             }.store(in: &cancellables)
     }
 
     func setFavorite(movie: MovieItem, favorite: Bool) {
         if favorite {
-            movieDataStore.add(movie: movie)
+            movieDataStore.addToFavorite(movie: movie)
         } else {
-            movieDataStore.remove(movie: movie)
+            movieDataStore.removeFromFavorite(movie: movie)
         }
     }
 }

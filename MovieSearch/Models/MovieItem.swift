@@ -22,5 +22,5 @@ struct MovieItem: Hashable {
     let genreList: [String]
     let genreIds: [Int]
     let overview: String
-    let myRating: String?
+    var myRating: Float?
 }

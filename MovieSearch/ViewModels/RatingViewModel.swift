@@ -35,19 +35,30 @@ class RatingViewModel {
             }
             .store(in: &cancellables)
 
-
         movieDataStore.$favoriteMovies
+            .combineLatest(movieDataStore.$ratedMovies)
             .receive(on: RunLoop.main)
-            .sink { [weak self] movies in
-                self?.isFavorite = movies.contains { $0.id == self?.movie.id }
+            .sink { [weak self] favoriteMovies, ratedMovies in
+                if let movieId = self?.movie.id {
+                    self?.isFavorite = favoriteMovies.contains { $0.id == movieId }
+                    self?.movie.myRating = ratedMovies[movieId]
+                }
             }.store(in: &cancellables)
     }
 
     func setFavorite(movie: MovieItem, favorite: Bool) {
         if favorite {
-            movieDataStore.add(movie: movie)
+            movieDataStore.addToFavorite(movie: movie)
         } else {
-            movieDataStore.remove(movie: movie)
+            movieDataStore.removeFromFavorite(movie: movie)
         }
+    }
+
+    func setRating(score: Float, errorHandle: @escaping ((String) -> Void)) {
+        movieDataStore.rate(movieId: movie.id, score: score, errorHandle: errorHandle, completion: nil)
+    }
+
+    func resetRating() {
+        movieDataStore.resetRating(movieId: movie.id)
     }
 }

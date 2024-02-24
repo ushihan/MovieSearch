@@ -49,7 +49,12 @@ class FavoriteCell: UICollectionViewCell {
 
     private func setupInformation(with movie: MovieItem) {
         posterImageView.image = movie.image
-        scoreLabel.text = movie.myRating ?? "0"
+
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 1
+        formatter.usesSignificantDigits = false
+        scoreLabel.text = formatter.string(from: NSNumber(value: movie.myRating ?? 0)) ?? ""
     }
 
     private func setupViews() {

@@ -20,5 +20,6 @@ struct MessageResponse: Codable {
 
 enum MessageCode: Int {
     case add = 1
+    case updated = 12
     case remove = 13
 }
