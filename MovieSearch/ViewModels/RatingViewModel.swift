@@ -54,8 +54,8 @@ class RatingViewModel {
         }
     }
 
-    func setRating(score: Float, errorHandle: @escaping ((String) -> Void)) {
-        movieDataStore.rate(movieId: movie.id, score: score, errorHandle: errorHandle, completion: nil)
+    func setRating(score: Float, errorHandle: @escaping ((String) -> Void), completion: @escaping (() -> Void)) {
+        movieDataStore.rate(movieId: movie.id, score: score, errorHandle: errorHandle, completion: completion)
     }
 
     func resetRating() {

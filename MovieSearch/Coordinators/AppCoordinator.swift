@@ -40,7 +40,7 @@ class AppCoordinator: Coordinator {
     func navigateToDetail(with movie: MovieItem) {
         let viewModel = DetailViewModel(with: movie, movieDataStore: movieDataStore)
         let detailViewController = DetailViewController(viewModel: viewModel)
-        detailViewController.modalPresentationStyle = .fullScreen
+        detailViewController.modalPresentationStyle = .overFullScreen
         detailViewController.modalTransitionStyle = .coverVertical
         detailViewController.coordinator = self
         topViewController?.present(detailViewController, animated: true)
@@ -49,10 +49,11 @@ class AppCoordinator: Coordinator {
     func navigateToRating(with movie: MovieItem) {
         let viewModel = RatingViewModel(with: movie, movieDataStore: movieDataStore)
         let ratingViewController = RatingViewController(viewModel: viewModel)
-        ratingViewController.modalPresentationStyle = .fullScreen
+        ratingViewController.modalPresentationStyle = .overFullScreen
         ratingViewController.modalTransitionStyle = .coverVertical
         ratingViewController.coordinator = self
-        topViewController?.present(ratingViewController, animated: true)
+        topViewController?.dismiss(animated: false)
+        window.rootViewController?.present(ratingViewController, animated: true)
     }
 
     func navigateToFavorite() {

@@ -14,6 +14,7 @@ class RatingViewController: UIViewController {
     weak var coordinator: AppCoordinator?
     private let viewModel: RatingViewModel
     private var cancellables = Set<AnyCancellable>()
+    private var activityIndicator = UIActivityIndicatorView(style: .large)
 
     private var customView: RatingView {
         guard let view = view as? RatingView else {
@@ -21,6 +22,12 @@ class RatingViewController: UIViewController {
         }
         return view
     }
+
+    private lazy var blackBackgroundView: UIView = {
+        let view = UIView(frame: self.view.bounds)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        return view
+    }()
 
     override func loadView() {
         view = RatingView()
@@ -44,14 +51,19 @@ class RatingViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .modalDidDismiss, object: nil)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAction()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleModalDismiss), name: .modalDidDismiss, object: nil)
     }
 
     private func setupAction() {
         customView.backButton.addAction(UIAction { [weak self] _ in
-            self?.coordinator?.navigateToSearch()
+            self?.dismiss(animated: true)
         }, for: .touchUpInside)
 
         customView.viewFavsButton.addAction(UIAction { [weak self] _ in
@@ -64,10 +76,12 @@ class RatingViewController: UIViewController {
         }, for: .touchUpInside)
 
         customView.rateButton.addAction(UIAction { [weak self] _ in
-            if self?.viewModel.movie.myRating == nil {
-                self?.showInputAlert()
+            guard let self = self else { return }
+            if self.viewModel.movie.myRating == nil {
+                self.view.addSubview(self.blackBackgroundView)
+                self.showInputAlert()
             } else {
-                self?.viewModel.resetRating()
+                self.viewModel.resetRating()
             }
         }, for: .touchUpInside)
     }
@@ -81,19 +95,50 @@ class RatingViewController: UIViewController {
         }
 
         let submitAction = UIAlertAction(title: "Submit", style: .default) { [weak alertController] _ in
+            self.showLoading()
             guard let text = alertController?.textFields?.first?.text, let score = Float(text), score <= 10, score >= 0 else {
+                self.hideLoading()
                 self.showErrorAlert(message: "Please enter a valid number")
                 return
             }
-
-            self.viewModel.setRating(score: score, errorHandle: self.showErrorAlert)
+            
+            self.viewModel.setRating(score: score, errorHandle: { error in
+                self.hideLoading()
+                self.showErrorAlert(message: error)
+            }, completion: {
+                self.hideLoading()
+            })
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            NotificationCenter.default.post(name: .modalDidDismiss, object: nil)
+        }
 
         alertController.addAction(submitAction)
         alertController.addAction(cancelAction)
 
         present(alertController, animated: true)
+    }
+
+    private func showLoading() {
+        DispatchQueue.main.async {
+            self.blackBackgroundView.addSubview(self.activityIndicator)
+            self.activityIndicator.center = self.view.center
+            self.activityIndicator.color = .white
+            self.activityIndicator.startAnimating()
+        }
+    }
+
+    private func hideLoading() {
+        NotificationCenter.default.post(name: .modalDidDismiss, object: nil)
+        DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
+        }
+    }
+
+    @objc private func handleModalDismiss(notification: Notification) {
+        DispatchQueue.main.async {
+            self.blackBackgroundView.removeFromSuperview()
+        }
     }
 }

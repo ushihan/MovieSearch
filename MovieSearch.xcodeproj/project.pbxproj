@@ -25,6 +25,7 @@
 		4BADE91C2B86D1AD00D48EAC /* Inter-VariableFont_slnt,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4BADE91B2B86D1AD00D48EAC /* Inter-VariableFont_slnt,wght.ttf */; };
 		4BADE91E2B86D1B700D48EAC /* Jomhuria-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4BADE91D2B86D1B700D48EAC /* Jomhuria-Regular.ttf */; };
 		4BADE9202B86D47D00D48EAC /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADE91F2B86D47D00D48EAC /* UIFont+Extensions.swift */; };
+		4BADE9222B88660C00D48EAC /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BADE9212B88660C00D48EAC /* Notification+Extensions.swift */; };
 		4BB0BBC22B81E66B00B20014 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBC12B81E66B00B20014 /* MovieCell.swift */; };
 		4BB0BBC62B81ED0D00B20014 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB0BBC52B81ED0D00B20014 /* SnapKit */; };
 		4BB0BBCB2B81F18500B20014 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB0BBCA2B81F18500B20014 /* UIColor+Extensions.swift */; };
@@ -96,6 +97,7 @@
 		4BADE91B2B86D1AD00D48EAC /* Inter-VariableFont_slnt,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-VariableFont_slnt,wght.ttf"; sourceTree = "<group>"; };
 		4BADE91D2B86D1B700D48EAC /* Jomhuria-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Jomhuria-Regular.ttf"; sourceTree = "<group>"; };
 		4BADE91F2B86D47D00D48EAC /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
+		4BADE9212B88660C00D48EAC /* Notification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extensions.swift"; sourceTree = "<group>"; };
 		4BB0BBC12B81E66B00B20014 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		4BB0BBCA2B81F18500B20014 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		4BB0BBCC2B820C6400B20014 /* MovieItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieItem.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				4BB0BBFA2B83361800B20014 /* UIButton+Extensions.swift */,
 				4BADE91F2B86D47D00D48EAC /* UIFont+Extensions.swift */,
 				4B93B1222B89A65100310BAB /* UIViewController+Extensions.swift */,
+				4BADE9212B88660C00D48EAC /* Notification+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 				4BB0BBD12B8223CC00B20014 /* MoviesResponse.swift in Sources */,
 				4BB0BBE62B8238D700B20014 /* PaddedTextField.swift in Sources */,
 				4B93B1232B89A65100310BAB /* UIViewController+Extensions.swift in Sources */,
+				4BADE9222B88660C00D48EAC /* Notification+Extensions.swift in Sources */,
 				4BB0BC132B84703200B20014 /* FavoriteView.swift in Sources */,
 				4BB0BBCD2B820C6400B20014 /* MovieItem.swift in Sources */,
 				4BADE9172B85C68D00D48EAC /* RatingViewModel.swift in Sources */,

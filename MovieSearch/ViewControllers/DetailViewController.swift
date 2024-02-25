@@ -23,6 +23,12 @@ class DetailViewController: UIViewController {
         return view
     }
 
+    private lazy var blackBackgroundView: UIView = {
+        let view = UIView(frame: self.view.bounds)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        return view
+    }()
+
     override func loadView() {
         view = DetailView()
     }
@@ -45,9 +51,14 @@ class DetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .modalDidDismiss, object: nil)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAction()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleModalDismiss), name: .modalDidDismiss, object: nil)
     }
 
     private func setupAction() {
@@ -56,10 +67,12 @@ class DetailViewController: UIViewController {
         }, for: .touchUpInside)
 
         customView.rateButton.addAction(UIAction { [weak self] _ in
-            if self?.viewModel.movie.myRating == nil {
-                self?.showInputAlert()
+            guard let self = self else { return }
+            if self.viewModel.movie.myRating == nil {
+                self.view.addSubview(self.blackBackgroundView)
+                self.showInputAlert()
             } else {
-                self?.viewModel.resetRating()
+                self.viewModel.resetRating()
             }
         }, for: .touchUpInside)
 
@@ -81,14 +94,17 @@ class DetailViewController: UIViewController {
             textField.keyboardType = .decimalPad
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            NotificationCenter.default.post(name: .modalDidDismiss, object: nil)
+        }
         let submitAction = UIAlertAction(title: "Submit", style: .default) { [weak alertController] _ in
+            self.showLoading()
             guard let text = alertController?.textFields?.first?.text, let score = Float(text), score <= 10, score >= 0 else {
+                self.hideLoading()
                 self.showErrorAlert(message: "Please enter a valid number")
                 return
             }
 
-            self.showLoading()
             self.viewModel.setRating(score: score, errorHandle: { error in
                 self.hideLoading()
                 self.showErrorAlert(message: error)
@@ -108,10 +124,7 @@ class DetailViewController: UIViewController {
 
     private func showLoading() {
         DispatchQueue.main.async {
-            let maskView = UIView(frame: self.view.frame)
-            maskView.backgroundColor = .black.withAlphaComponent(0.5)
-            self.view.addSubview(maskView)
-            maskView.addSubview(self.activityIndicator)
+            self.blackBackgroundView.addSubview(self.activityIndicator)
             self.activityIndicator.center = self.view.center
             self.activityIndicator.color = .white
             self.activityIndicator.startAnimating()
@@ -119,9 +132,15 @@ class DetailViewController: UIViewController {
     }
 
     private func hideLoading() {
+        NotificationCenter.default.post(name: .modalDidDismiss, object: nil)
         DispatchQueue.main.async {
-            self.activityIndicator.superview?.removeFromSuperview()
             self.activityIndicator.stopAnimating()
+        }
+    }
+
+    @objc private func handleModalDismiss(notification: Notification) {
+        DispatchQueue.main.async {
+            self.blackBackgroundView.removeFromSuperview()
         }
     }
 }
